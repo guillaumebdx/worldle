@@ -32,7 +32,7 @@ for (let i = 0; i < keyboardLetters.length; i++) {
 copyButton.addEventListener('click', (event) => {
     event.stopPropagation();
     const lines = document.getElementsByClassName('line');
-    let text = 'Mon @WordleMonde du jour \n';
+    let text = 'Mon @WordleMonde du jour #WordleMonde \n';
     for (let i = 0; i < lines.length; i++) {
       for (square of lines[i].children) {
         text += square.innerHTML;
