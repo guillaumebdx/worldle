@@ -29,19 +29,18 @@ for (let i = 0; i < keyboardLetters.length; i++) {
   });
 }
 
-copyButton.addEventListener('click', () => {
-  if (document.selection) {
-    let range = document.body.createTextRange();
-    range.moveToElementText(copyMe);
-    range.select().createTextRange();
-    document.execCommand("copy");
-  } else if (window.getSelection) {
-    let range = document.createRange();
-    range.selectNode(copyMe);
-    window.getSelection().addRange(range);
-    document.execCommand("copy");
-  }
-  copyButton.innerHTML = 'Copié !';
+copyButton.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const lines = document.getElementsByClassName('line');
+    let text = 'Mon @WordleMonde du jour \n';
+    for (let i = 0; i < lines.length; i++) {
+      for (square of lines[i].children) {
+        text += square.innerHTML;
+      }
+      text += '\n';
+    }
+    navigator.clipboard.writeText(text);
+    copyButton.innerHTML = 'Copié !';
 });
 
 const addLetterInSquare = (letter) => {
