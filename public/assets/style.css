@@ -33,19 +33,27 @@
     color: #3d2e2e;
 }
 .yellow {
-    background-color: #fffe6f;
+    background-color: #F7E138;
+    color: black;
 }
 .green {
-    background-color: #95fa5e;
+    background-color: #83BA47;
+    color: black;
 }
 .blue {
-    background-color: #a3a3f6;
+    background-color: #3090E5;
+    color: black;
 }
 
 #victory {
     display: none;
 }
 
+.line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* Animations */
 .shake {
     -webkit-animation-name: shake;

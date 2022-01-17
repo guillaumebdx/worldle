@@ -10,25 +10,41 @@ class WordFixtures extends Fixture
 {
     public const WORDS = [
         [
-            'content' => 'FRANCE',
-            'definition' => 'La France, en forme longue depuis 1875 la République française, est un État souverain transcontinental dont le territoire métropolitain est situé en Europe de l\'Ouest et dont le territoire ultramarin est situé dans les océans Indien, Atlantique et Pacifique ainsi qu\'en Amérique du Sud.',
+            'content' => 'BERLIN',
         ],
         [
-            'content' => 'PARIS',
-            'definition' => 'Paris est la commune la plus peuplée et la capitale de la France.'
+            'content' => 'CHICAGO',
         ],
         [
-            'content' => 'GUATEMALA',
-            'definition' => 'Le Guatemala, ou Guatémala, en forme longue la république du Guatemala (en espagnol : República de Guatemala), est un pays d\'Amérique centrale entouré par le Mexique, le Belize, la mer des Caraïbes, le Honduras, le Salvador et l\'océan Pacifique',
+            'content' => 'MONACO',
+        ],
+        [
+            'content' => 'BORDEAUX',
+        ],
+        [
+            'content' => 'NAPLES',
+        ],
+        [
+            'content' => 'MADRID',
+        ],
+        [
+            'content' => 'QUEBEC',
+        ],
+        [
+            'content' => 'TOKYO',
+        ],
+        [
+            'content' => 'MEXIQUE',
         ],
     ];
     public function load(ObjectManager $manager): void
     {
-        foreach (self::WORDS as $wordData) {
+        foreach (self::WORDS as $key => $wordData) {
             $word = new Word();
             $word->setContent($wordData['content']);
-            $word->setDefinition($wordData['definition']);
+            $word->setDefinition('à définir');
             $today = new \DateTime();
+            $today->add(new \DateInterval('P' . $key . 'D'));
             $word->setPlayAt($today);
             $manager->persist($word);
         }

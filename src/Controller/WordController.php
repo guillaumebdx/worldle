@@ -38,19 +38,28 @@ class WordController extends AbstractController
         $lettersOfTheDay = str_split($wordOfTheDay->getContent());
         $letters = str_split($word);
         $result = [];
+        $errors = [];
+        $valids = [];
+        $aways = [];
         foreach ($letters as $key => $letter) {
             if ($letter === $lettersOfTheDay[$key]) {
                 $result[] = 'green';
+                $valids[] = $letter;
             } elseif (in_array($letter, $lettersOfTheDay)) {
                 $result[] = 'yellow';
+                $aways[] = $letter;
             } else {
                 $result[] = 'blue';
+                $errors[] = $letter;
             }
 
         }
         $response = [];
         $response['result'] = $result;
         $response['success'] = false;
+        $response['errors'] = $errors;
+        $response['valids'] = $valids;
+        $response['aways'] = $aways;
         if ($wordOfTheDay->getContent() === $word) {
             $response['success'] = true;
         }

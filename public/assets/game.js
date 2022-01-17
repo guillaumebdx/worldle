@@ -3,6 +3,8 @@ const del = 'Sup';
 let gameOver = false;
 const letterCount = parseInt(document.getElementById('matrice').dataset.lettercount);
 const keyboardLetters = document.getElementsByClassName('keyboard-letter');
+const copyMe = document.getElementById('copy-me');
+const copyButton = document.getElementById('copy-button');
 
 let inWorkingLine = 1;
 let inWorkingSquare = 1;
@@ -25,6 +27,21 @@ for (let i = 0; i < keyboardLetters.length; i++) {
     }, 150);
   });
 }
+
+copyButton.addEventListener('click', () => {
+  if (document.selection) {
+    let range = document.body.createTextRange();
+    range.moveToElementText(copyMe);
+    range.select().createTextRange();
+    document.execCommand("copy");
+  } else if (window.getSelection) {
+    let range = document.createRange();
+    range.selectNode(copyMe);
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+  }
+  copyButton.innerHTML = 'Copié !';
+});
 
 const addLetterInSquare = (letter) => {
   let square = document.getElementById(`square-${inWorkingLine}-${inWorkingSquare}`);
@@ -69,8 +86,9 @@ const getCurrentWord = () => {
 };
 
 const colorize = (data) => {
+  colorizeKeyboard(data)
+  createCopyLine(data)
   let currentLine = document.getElementById(`line-${inWorkingLine -1}`);
-  console.log(data.success)
   if (data.success) {
     currentLine.classList.add('tada');
     gameOver = true;
@@ -82,10 +100,43 @@ const colorize = (data) => {
   for (let i=0; i < data.result.length; i++) {
     currentLine.children[i].classList.add(data.result[i]);
   }
-  console.log(currentLine);
 }
 
 const displayVictory = () => {
   let victory = document.getElementById('victory');
   victory.style.display = 'block';
+}
+
+const colorizeKeyboard = (data) => {
+  for (let i = 0; i < keyboardLetters.length; i++) {
+    if (data.errors.includes(keyboardLetters[i].innerHTML)) {
+      keyboardLetters[i].classList.add('blue');
+    }
+    if (data.valids.includes(keyboardLetters[i].innerHTML)) {
+      keyboardLetters[i].classList.add('green');
+    }
+    if (data.aways.includes(keyboardLetters[i].innerHTML)) {
+      keyboardLetters[i].classList.add('yellow');
+    }
+  }
+}
+
+const createCopyLine = (data) => {
+  const newLine = document.createElement('div');
+  newLine.classList.add('line');
+  for (let i=0; i < data.result.length; i++) {
+    let square = document.createElement('span');
+    if (data.result[i] === 'green') {
+      squareColor = '🟩';
+    }
+    if (data.result[i] === 'blue') {
+      squareColor = '🟦';
+    }
+    if (data.result[i] === 'yellow') {
+      squareColor = '🟨';
+    }
+    square.innerHTML = squareColor;
+    newLine.appendChild(square);
+  }
+  copyMe.appendChild(newLine);
 }
