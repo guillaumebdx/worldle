@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Worldle{% endblock %}
+
+{% block body %}
+    <h1 class="text-center">Worldle du jour</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12" id="matrice" data-lettercount="{{ letters|length }}">
+                {% for i in 1..6 %}
+                <div class="word-container d-flex justify-content-center" id="line-{{ i }}">
+                    {% for letter in letters %}
+                        <div class="square" >
+                            <span id="square-{{ i }}-{{ loop.index }}"></span>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="keyboard-line d-flex justify-content-center">
+                    {% for letter in keyboard1 %}
+                        <div class="keyboard-letter">{{ letter }}</div>
+                    {% endfor %}
+                </div>
+                <div class="keyboard-line d-flex justify-content-center">
+                    {% for letter in keyboard2 %}
+                        <div class="keyboard-letter">{{ letter }}</div>
+                    {% endfor %}
+                </div>
+                <div class="keyboard-line d-flex justify-content-center">
+                    <div class="keyboard-letter suppr">Sup</div>
+                    {% for letter in keyboard3 %}
+                        <div class="keyboard-letter">{{ letter }}</div>
+                    {% endfor %}
+                    <div class="keyboard-letter enter">OK</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" id="victory">
+                <div class="alert alert-success">
+                    Bien joué !
+                </div>
+                <div>
+                    🟨🟦🟩🟦🟨 <br>
+                    🟨🟦🟩🟩🟩 <br>
+                    🟩🟩🟩🟩🟩 <br>
+                    <button class="btn btn-primary" role="button">Copier pour partager !</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
