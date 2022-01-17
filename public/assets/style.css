@@ -49,6 +49,10 @@
     display: none;
 }
 
+#defeat {
+    display: none;
+}
+
 .line {
     display: flex;
     justify-content: center;

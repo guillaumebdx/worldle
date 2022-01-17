@@ -48,6 +48,11 @@
                 <div id="copy-me">WordleMonde du jour <br> @WordleMonde</div>
                 <button class="btn btn-primary" role="button" id="copy-button">Copier pour partager !</button>
             </div>
+            <div class="col-12 text-center" id="defeat">
+                <div class="alert alert-danger">
+                    C'est raté pour aujourd'hui ! Le mot était {% for letter in letters %} {{ letter }} {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 

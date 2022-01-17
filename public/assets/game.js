@@ -1,5 +1,6 @@
 const enter = 'OK';
 const del = 'Sup';
+const numberOfLines = 7;
 let gameOver = false;
 const letterCount = parseInt(document.getElementById('matrice').dataset.lettercount);
 const keyboardLetters = document.getElementsByClassName('keyboard-letter');
@@ -95,6 +96,11 @@ const colorize = (data) => {
     displayVictory();
   } else {
     currentLine.classList.add('shake');
+    console.log(inWorkingLine)
+    if (inWorkingLine === numberOfLines) {
+      gameOver = true;
+      displayDefeat();
+    }
   }
 
   for (let i=0; i < data.result.length; i++) {
@@ -105,6 +111,11 @@ const colorize = (data) => {
 const displayVictory = () => {
   let victory = document.getElementById('victory');
   victory.style.display = 'block';
+}
+
+const displayDefeat = () => {
+  let defeat = document.getElementById('defeat');
+  defeat.style.display = 'block';
 }
 
 const colorizeKeyboard = (data) => {
