@@ -32,10 +32,6 @@
     background-color: #fdffc9;
     color: #3d2e2e;
 }
-.yellow {
-    background-color: #F7E138;
-    color: black;
-}
 .green {
     background-color: #83BA47;
     color: black;
@@ -44,7 +40,10 @@
     background-color: #3090E5;
     color: black;
 }
-
+.yellow {
+    background-color: #F7E138;
+    color: black;
+}
 #victory {
     display: none;
 }
