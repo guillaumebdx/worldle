@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\WordRepository;
+use App\Service\Lexique;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,10 @@ class WordController extends AbstractController
     /**
      * @Route("/check/{word}", name="check_word", methods="GET")
      */
-    public function checkWord(string $word, WordRepository $wordRepository, RequestStack $requestStack)
+    public function checkWord(string $word,
+                              WordRepository $wordRepository,
+                              RequestStack $requestStack,
+                              Lexique $lexique)
     {
         $session = $requestStack->getSession();
         if ($session->get('lines')) {
@@ -73,6 +77,7 @@ class WordController extends AbstractController
         $response['errors'] = $errors;
         $response['valids'] = $valids;
         $response['aways'] = $aways;
+        $response['validWord'] = $lexique->isValid(strtolower($word));
         if ($wordOfTheDay->getContent() === $word) {
             $response['success'] = true;
         }

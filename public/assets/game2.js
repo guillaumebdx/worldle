@@ -59,7 +59,6 @@ const deleteLetterInSquare = () => {
 
 const checkWord = (word) => {
   if (letterCount === inWorkingSquare -1) {
-    inWorkingLine++;
     inWorkingSquare = 1;
     fetch(`/check/${word}`, {
       method: 'GET',
@@ -86,25 +85,41 @@ const getCurrentWord = () => {
 };
 
 const colorize = (data) => {
-  colorizeKeyboard(data)
-  createCopyLine(data)
-  let currentLine = document.getElementById(`line-${inWorkingLine -1}`);
-  if (data.success) {
-    currentLine.classList.add('tada');
-    gameOver = true;
-    displayVictory();
+  let currentLine = document.getElementById(`line-${inWorkingLine}`);
+  if (data.validWord === false) {
+    handleInvalidWord(currentLine);
   } else {
-    currentLine.classList.add('shake');
-    console.log(inWorkingLine)
-    if (inWorkingLine === numberOfLines) {
+    colorizeKeyboard(data)
+    createCopyLine(data)
+    inWorkingLine++;
+    if (data.success) {
+      currentLine.classList.add('tada');
       gameOver = true;
-      displayDefeat();
+      displayVictory();
+    } else {
+      currentLine.classList.add('shake');
+      if (inWorkingLine === numberOfLines) {
+        gameOver = true;
+        displayDefeat();
+      }
+    }
+    for (let i=0; i < data.result.length; i++) {
+      currentLine.children[i].classList.add(data.result[i]);
     }
   }
+}
 
-  for (let i=0; i < data.result.length; i++) {
-    currentLine.children[i].classList.add(data.result[i]);
+const handleInvalidWord = (currentLine) => {
+  for (let i=0; i < currentLine.children.length; i++) {
+    currentLine.children[i].children[0].innerHTML = '';
   }
+  currentLine.classList.add('shake');
+  const invalidWord = document.getElementById('invalid-word');
+  invalidWord.classList.remove('d-none');
+  setTimeout(() => {
+    currentLine.classList.remove('shake');
+    invalidWord.classList.add('d-none');
+  }, 1000);
 }
 
 const displayVictory = () => {
