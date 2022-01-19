@@ -7,19 +7,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class WordController extends AbstractController
 {
     /**
      * @Route("/", name="word")
      */
-    public function index(WordRepository $wordRepository): Response
+    public function index(WordRepository $wordRepository, RequestStack $requestStack): Response
     {
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $letters      = str_split($wordOfTheDay->getContent());
         $keyboard1    = str_split('AZERTYUIOP');
         $keyboard2    = str_split('QSDFGHJKL');
         $keyboard3    = str_split('WXCVBNM');
+        dump($requestStack->getSession()->get('lines'));
         return $this->render('word/index.html.twig', [
             'word'     => $wordOfTheDay,
             'letters'  => $letters,
@@ -32,8 +34,16 @@ class WordController extends AbstractController
     /**
      * @Route("/check/{word}", name="check_word", methods="GET")
      */
-    public function checkWord(string $word, WordRepository $wordRepository)
+    public function checkWord(string $word, WordRepository $wordRepository, RequestStack $requestStack)
     {
+        $session = $requestStack->getSession();
+        if ($session->get('lines')) {
+            $lines = $session->get('lines');
+            $lines[] = $word;
+            $session->set('lines', $lines);
+        } else {
+            $session->set('lines', [$word]);
+        }
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $lettersOfTheDay = str_split($wordOfTheDay->getContent());
         $letters = str_split($word);

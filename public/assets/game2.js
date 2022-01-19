@@ -5,7 +5,9 @@ let gameOver = false;
 const letterCount = parseInt(document.getElementById('matrice').dataset.lettercount);
 const keyboardLetters = document.getElementsByClassName('keyboard-letter');
 const copyMe = document.getElementById('copy-me');
+const copyMeDefeat = document.getElementById('copy-me-defeat');
 const copyButton = document.getElementById('copy-button');
+const copyButtons = document.getElementsByClassName('copy-button')
 
 let inWorkingLine = 1;
 let inWorkingSquare = 1;
@@ -29,7 +31,8 @@ for (let i = 0; i < keyboardLetters.length; i++) {
   });
 }
 
-copyButton.addEventListener('click', (event) => {
+for (let i = 0; i < copyButtons; i++) {
+  copyButtons[i].addEventListener('click', (event) => {
     event.stopPropagation();
     const lines = document.getElementsByClassName('line');
     let text = 'Mon @WordleMonde du jour #WordleMonde \n';
@@ -41,7 +44,9 @@ copyButton.addEventListener('click', (event) => {
     }
     navigator.clipboard.writeText(text);
     copyButton.innerHTML = 'Copié !';
-});
+  });
+}
+
 
 const addLetterInSquare = (letter) => {
   let square = document.getElementById(`square-${inWorkingLine}-${inWorkingSquare}`);
@@ -149,4 +154,6 @@ const createCopyLine = (data) => {
     newLine.appendChild(square);
   }
   copyMe.appendChild(newLine);
+  let newLineDefeat = newLine.cloneNode(true);
+  copyMeDefeat.appendChild(newLineDefeat)
 }
