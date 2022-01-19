@@ -154,6 +154,6 @@ const createCopyLine = (data) => {
     newLine.appendChild(square);
   }
   copyMe.appendChild(newLine);
-  let newLineDefeat = newLine.cloneNode(true);
-  copyMeDefeat.appendChild(newLineDefeat)
+//  let newLineDefeat = newLine.cloneNode(true);
+//  copyMeDefeat.appendChild(newLineDefeat)
 }
