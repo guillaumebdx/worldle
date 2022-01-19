@@ -2,7 +2,8 @@ const enter = 'OK';
 const del = 'Sup';
 const numberOfLines = 7;
 let gameOver = false;
-const letterCount = parseInt(document.getElementById('matrice').dataset.lettercount);
+const matrice = document.getElementById('matrice');
+const letterCount = parseInt(matrice.dataset.lettercount);
 const keyboardLetters = document.getElementsByClassName('keyboard-letter');
 const copyMe = document.getElementById('copy-me');
 const copyButton = document.getElementById('copy-button');
@@ -28,6 +29,31 @@ for (let i = 0; i < keyboardLetters.length; i++) {
     }, 150);
   });
 }
+
+document.addEventListener('keydown', (event) => {
+  if (event.key.length === 1) {
+    //a z
+    if (event.key.charCodeAt() >= 97 && event.key.charCodeAt() <=122 && inWorkingSquare <= letterCount && !gameOver) {
+      addLetterInSquare(event.key.toUpperCase());
+    }
+    //A Z
+    if (event.key.charCodeAt() >= 65 && event.key.charCodeAt() <=90 && inWorkingSquare <= letterCount && !gameOver) {
+      addLetterInSquare(event.key.toUpperCase());
+    }
+  }
+
+  if (event.key === 'Delete' && inWorkingSquare > 1 && !gameOver) {
+    deleteLetterInSquare();
+  }
+  if (event.key === 'Backspace' && inWorkingSquare > 1 && !gameOver) {
+    deleteLetterInSquare();
+  }
+  if (event.key === 'Enter' && !gameOver) {
+    checkWord(getCurrentWord());
+  }
+  console.log(event.key);
+  console.log(event.key.charCodeAt());
+});
 
 copyButton.addEventListener('click', (event) => {
     event.stopPropagation();
