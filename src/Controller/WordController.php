@@ -21,7 +21,6 @@ class WordController extends AbstractController
         $keyboard1    = str_split('AZERTYUIOP');
         $keyboard2    = str_split('QSDFGHJKL');
         $keyboard3    = str_split('WXCVBNM');
-        dump($requestStack->getSession()->get('lines'));
         return $this->render('word/index.html.twig', [
             'word'     => $wordOfTheDay,
             'letters'  => $letters,
