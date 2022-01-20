@@ -30,14 +30,9 @@ class WordController extends AbstractController
         $lastDate = $session->get('time');
         $now = new \DateTime();
         if ($lastDate && $lastDate->diff($now)->i > 1) {
-            dump($lastDate->diff($now)->i > 1);
             $session->set('lines', null);
             $session->set('time', null);
         }
-        dump(
-            $this->requestStack->getSession()->get('lines'),
-            $this->requestStack->getSession()->get('time'),
-            $this->requestStack->getSession()->get('colors'));
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $letters      = str_split($wordOfTheDay->getContent());
         $keyboard1    = str_split('AZERTYUIOP');
