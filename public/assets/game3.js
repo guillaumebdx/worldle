@@ -51,8 +51,6 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && !gameOver) {
     checkWord(getCurrentWord());
   }
-  console.log(event.key);
-  console.log(event.key.charCodeAt());
 });
 
 copyButton.addEventListener('click', (event) => {
