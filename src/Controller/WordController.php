@@ -12,22 +12,41 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class WordController extends AbstractController
 {
+
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     /**
      * @Route("/", name="word")
      */
     public function index(WordRepository $wordRepository, RequestStack $requestStack): Response
     {
+        $session = $this->requestStack->getSession();
+        $inWorkingLines = $session->get('lines');
+        $lastDate = $session->get('time');
+        $now = new \DateTime();
+        if ($lastDate && $lastDate->diff($now)->i > 1) {
+            dump($lastDate->diff($now)->i > 1);
+            $session->set('lines', null);
+            $session->set('time', null);
+        }
+        dump($this->requestStack->getSession()->get('lines'), $this->requestStack->getSession()->get('time'));
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $letters      = str_split($wordOfTheDay->getContent());
         $keyboard1    = str_split('AZERTYUIOP');
         $keyboard2    = str_split('QSDFGHJKL');
         $keyboard3    = str_split('WXCVBNM');
         return $this->render('word/index.html.twig', [
-            'word'     => $wordOfTheDay,
-            'letters'  => $letters,
-            'keyboard1' => $keyboard1,
-            'keyboard2' => $keyboard2,
-            'keyboard3' => $keyboard3,
+            'in_working_lines' => $inWorkingLines,
+            'word'             => $wordOfTheDay,
+            'letters'          => $letters,
+            'keyboard1'        => $keyboard1,
+            'keyboard2'        => $keyboard2,
+            'keyboard3'        => $keyboard3,
         ]);
     }
 
@@ -39,14 +58,7 @@ class WordController extends AbstractController
                               RequestStack $requestStack,
                               Lexique $lexique)
     {
-        $session = $requestStack->getSession();
-        if ($session->get('lines')) {
-            $lines = $session->get('lines');
-            $lines[] = $word;
-            $session->set('lines', $lines);
-        } else {
-            $session->set('lines', [$word]);
-        }
+        dd('ahj');
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $lettersOfTheDay = str_split($wordOfTheDay->getContent());
         $letters = str_split($word);
@@ -80,6 +92,18 @@ class WordController extends AbstractController
         $response['validWord'] = $lexique->isValid(strtolower($word));
         if ($wordOfTheDay->getContent() === $word) {
             $response['success'] = true;
+        }
+        if ($response['validWord']) {
+            $session = $requestStack->getSession();
+            if ($session->get('lines')) {
+                $lines = $session->get('lines');
+                $lines[] = $word;
+                $session->set('lines', array_unique($lines));
+                $session->set('time', new \DateTime());
+            } else {
+                $session->set('lines', [$word]);
+                $session->set('time', new \DateTime());
+            }
         }
         return new JsonResponse($response);
     }
