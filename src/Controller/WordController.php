@@ -34,7 +34,10 @@ class WordController extends AbstractController
             $session->set('lines', null);
             $session->set('time', null);
         }
-        dump($this->requestStack->getSession()->get('lines'), $this->requestStack->getSession()->get('time'));
+        dump(
+            $this->requestStack->getSession()->get('lines'),
+            $this->requestStack->getSession()->get('time'),
+            $this->requestStack->getSession()->get('colors'));
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $letters      = str_split($wordOfTheDay->getContent());
         $keyboard1    = str_split('AZERTYUIOP');
@@ -42,6 +45,7 @@ class WordController extends AbstractController
         $keyboard3    = str_split('WXCVBNM');
         return $this->render('word/index.html.twig', [
             'in_working_lines' => $inWorkingLines,
+            'in_working_colors' => $this->requestStack->getSession()->get('colors'),
             'word'             => $wordOfTheDay,
             'letters'          => $letters,
             'keyboard1'        => $keyboard1,
@@ -58,7 +62,6 @@ class WordController extends AbstractController
                               RequestStack $requestStack,
                               Lexique $lexique)
     {
-        dd('ahj');
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $lettersOfTheDay = str_split($wordOfTheDay->getContent());
         $letters = str_split($word);
@@ -97,11 +100,15 @@ class WordController extends AbstractController
             $session = $requestStack->getSession();
             if ($session->get('lines')) {
                 $lines = $session->get('lines');
-                $lines[] = $word;
-                $session->set('lines', array_unique($lines));
+                $lines[] = str_split($word);
+                $session->set('lines', $lines);
+                $colors = $session->get('colors');
+                $colors[] = $response['result'];
+                $session->set('colors', $colors);
                 $session->set('time', new \DateTime());
             } else {
-                $session->set('lines', [$word]);
+                $session->set('lines', [str_split($word)]);
+                $session->set('colors', [$result]);
                 $session->set('time', new \DateTime());
             }
         }
