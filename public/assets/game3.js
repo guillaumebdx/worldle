@@ -8,7 +8,7 @@ const reloadCount = parseInt(matrice.dataset.reloadcount);
 const keyboardLetters = document.getElementsByClassName('keyboard-letter');
 const copyMe = document.getElementById('copy-me');
 const copyButton = document.getElementById('copy-button');
-const sessionColor = document.getElementById('session-color');
+const sessionColors = matrice.dataset.colors.split('|');
 
 let inWorkingLine = 1;
 let inWorkingSquare = 1;
@@ -195,6 +195,19 @@ const createCopyLine = (data) => {
   }
   copyMe.appendChild(newLine);
 }
+
+const createAllCopyLines = () => {
+  for (let i = 0; i < sessionColors.length; i++) {
+    let colors = sessionColors[i].split(',');
+    for (let j=0; j <= colors.length; j++) {
+      if (colors[j]) {
+        colors[j] = colors[j].trim();
+      }
+    }
+    createCopyLine({result : colors});
+  }
+}
+createAllCopyLines();
 
 const sessionErrors = matrice.dataset.errors.split(',');
 const sessionAways = matrice.dataset.aways.split(',');
