@@ -9,13 +9,11 @@ const keyboardLetters = document.getElementsByClassName('keyboard-letter');
 const copyMe = document.getElementById('copy-me');
 const copyButton = document.getElementById('copy-button');
 const sessionColors = matrice.dataset.colors.split('|');
-
+const sessionSuccess = matrice.dataset.success;
 let inWorkingLine = 1;
 let inWorkingSquare = 1;
 
 inWorkingLine += reloadCount;
-
-
 
 for (let i = 0; i < keyboardLetters.length; i++) {
   keyboardLetters[i].addEventListener('click', function() {
@@ -207,7 +205,10 @@ const createAllCopyLines = () => {
     createCopyLine({result : colors});
   }
 }
-createAllCopyLines();
+
+if (sessionColors[0] !== '') {
+  createAllCopyLines();
+}
 
 const sessionErrors = matrice.dataset.errors.split(',');
 const sessionAways = matrice.dataset.aways.split(',');
@@ -219,3 +220,7 @@ let sessionData = {
 };
 
 colorizeKeyboard(sessionData);
+
+if (sessionSuccess) {
+  displayVictory();
+}
