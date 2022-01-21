@@ -29,7 +29,7 @@ class WordController extends AbstractController
         $inWorkingLines = $session->get('lines');
         $lastDate = $session->get('time');
         $now = new \DateTime();
-        if ($lastDate && $lastDate->diff($now)->i > 1) {
+        if ($lastDate && $lastDate->diff($now)->d > 1) {
             $session->set('lines', null);
             $session->set('time', null);
         }
