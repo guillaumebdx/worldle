@@ -8,7 +8,7 @@
     <div id="invalid-word" class="alert alert-warning text-center d-none">Ce mot n'existe pas !</div>
     <div class="container">
         <div class="row">
-            <div class="col-12" id="matrice" data-lettercount="{{ letters|length }}">
+            <div class="col-12" id="matrice" data-success="{{ app.session.get('success') }}" data-valids="{{ app.session.get('valids')|join(',') }}" data-aways="{{ app.session.get('aways')|join(',') }}" data-errors="{{ app.session.get('errors')|join(',') }}" data-lettercount="{{ letters|length }}" data-reloadcount="{{ in_working_lines|length }}">
                 {% for i in 1..6 %}
                 <div class="word-container d-flex justify-content-center" id="line-{{ i }}">
                     {% for letter in letters %}
@@ -64,6 +64,23 @@
             </div>
         </div>
     </div>
+    {#<div id="session-color" class="{{ app.session.get('success') ? 'd-block' : '' }}">
+        {% if app.session.get('colors') %}
+            {% for colors in app.session.get('colors') %}
+                <div class="line-session    ">
+                    {% for color in colors %}
+                        {% if (color == 'blue') %}
+                            🟦
+                        {% elseif (color == 'yellow') %}
+                            🟨
+                        {% else %}
+                            🟩
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>#}
 
 
 {% endblock %}

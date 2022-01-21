@@ -53,11 +53,15 @@
     display: none;
 }
 
+#session-color {
+    display: none;
+}
+
 #defeat {
     display: none;
 }
 
-.line {
+.line, .line-session {
     display: flex;
     justify-content: center;
     align-items: center;

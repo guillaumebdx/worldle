@@ -4,12 +4,18 @@ const numberOfLines = 7;
 let gameOver = false;
 const matrice = document.getElementById('matrice');
 const letterCount = parseInt(matrice.dataset.lettercount);
+const reloadCount = parseInt(matrice.dataset.reloadcount);
 const keyboardLetters = document.getElementsByClassName('keyboard-letter');
 const copyMe = document.getElementById('copy-me');
 const copyButton = document.getElementById('copy-button');
+const sessionColor = document.getElementById('session-color');
 
 let inWorkingLine = 1;
 let inWorkingSquare = 1;
+
+inWorkingLine += reloadCount;
+
+
 
 for (let i = 0; i < keyboardLetters.length; i++) {
   keyboardLetters[i].addEventListener('click', function() {
@@ -189,3 +195,14 @@ const createCopyLine = (data) => {
   }
   copyMe.appendChild(newLine);
 }
+
+const sessionErrors = matrice.dataset.errors.split(',');
+const sessionAways = matrice.dataset.aways.split(',');
+const sessionValids = matrice.dataset.valids.split(',');
+let sessionData = {
+  errors: sessionErrors,
+  aways: sessionAways,
+  valids: sessionValids
+};
+
+colorizeKeyboard(sessionData);

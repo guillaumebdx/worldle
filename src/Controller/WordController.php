@@ -100,12 +100,19 @@ class WordController extends AbstractController
                 $colors = $session->get('colors');
                 $colors[] = $response['result'];
                 $session->set('colors', $colors);
+                $session->set('errors', array_unique(array_merge($session->get('errors'), $response['errors'])));
+                $session->set('valids', array_unique(array_merge($session->get('valids'), $response['valids'])));
+                $session->set('aways', array_unique(array_merge($session->get('aways'), $response['aways'])));
                 $session->set('time', new \DateTime());
             } else {
                 $session->set('lines', [str_split($word)]);
                 $session->set('colors', [$result]);
+                $session->set('errors', $errors);
+                $session->set('valids', $valids);
+                $session->set('aways', $aways);
                 $session->set('time', new \DateTime());
             }
+            $session->set('success', $response['success']);
         }
         return new JsonResponse($response);
     }
