@@ -26,13 +26,14 @@ class WordController extends AbstractController
     public function index(WordRepository $wordRepository, RequestStack $requestStack): Response
     {
         $session = $this->requestStack->getSession();
-        $inWorkingLines = $session->get('lines');
         $lastDate = $session->get('time');
         $now = new \DateTime();
-        if ($lastDate && $lastDate->diff($now)->d > 1) {
-            $session->set('lines', null);
-            $session->set('time', null);
+        if ($lastDate && $lastDate->format('d') !== $now->format('d') ) {
+            foreach ($session->all() as $sessionType => $value) {
+               $session->remove($sessionType);
+            }
         }
+        $inWorkingLines = $session->get('lines');
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $letters      = str_split($wordOfTheDay->getContent());
         $keyboard1    = str_split('AZERTYUIOP');
