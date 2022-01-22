@@ -21,6 +21,9 @@
     background-color: #3d2e2e;
     color: #fdffc9;
     cursor: pointer;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .suppr {
     color: red;
