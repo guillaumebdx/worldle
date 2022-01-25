@@ -9,6 +9,7 @@
     align-items: center;
     font-size: 2rem;
     font-weight: bold;
+    border-radius: 5px;
 }
 
 .keyboard-letter {
@@ -77,6 +78,15 @@
     right: 0;
     width: 50vw;
     z-index: 2;
+}
+.title-squares > .square {
+    width: 30px;
+    height: 30px;
+    font-size: 1.5rem;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 /* Animations */
 .shake {
