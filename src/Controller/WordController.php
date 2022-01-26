@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Attempt;
 use App\Repository\WordRepository;
 use App\Service\ColorManager;
 use App\Service\Lexique;
 use App\Service\SessionHandler;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,9 +19,12 @@ class WordController extends AbstractController
 
     private RequestStack $requestStack;
 
-    public function __construct(RequestStack $requestStack)
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(RequestStack $requestStack, ManagerRegistry $managerRegistry)
     {
         $this->requestStack = $requestStack;
+        $this->managerRegistry = $managerRegistry;
     }
 
     /**
@@ -57,7 +62,6 @@ class WordController extends AbstractController
      */
     public function checkWord(string $word,
                               WordRepository $wordRepository,
-                              RequestStack $requestStack,
                               Lexique $lexique,
                               ColorManager $colorManager,
                               SessionHandler $sessionHandler)
@@ -70,12 +74,19 @@ class WordController extends AbstractController
         $response['valids']    = $colorManager->getValids();
         $response['aways']     = $colorManager->getAways();
         $response['validWord'] = $lexique->isValid(strtolower($word));
+        $attempt = new Attempt();
+        $attempt->setContent($word);
+        $attempt->setWord($wordOfTheDay);
         if ($wordOfTheDay->getContent() === $word) {
             $response['success'] = true;
         }
+        $attempt->setIsSuccess($response['success']);
+        $attempt->setIsValid($response['validWord']);
         if ($response['validWord']) {
             $sessionHandler->write($response, $word);
         }
+        $this->managerRegistry->getManager()->persist($attempt);
+        $this->managerRegistry->getManager()->flush();
         return new JsonResponse($response);
     }
 }

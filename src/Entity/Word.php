@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\WordRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Word
      * @ORM\Column(type="date")
      */
     private $playAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Attempt::class, mappedBy="word")
+     */
+    private $attempts;
+
+    public function __construct()
+    {
+        $this->attempts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,36 @@ class Word
     public function setPlayAt(\DateTimeInterface $playAt): self
     {
         $this->playAt = $playAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Attempt[]
+     */
+    public function getAttempts(): Collection
+    {
+        return $this->attempts;
+    }
+
+    public function addAttempt(Attempt $attempt): self
+    {
+        if (!$this->attempts->contains($attempt)) {
+            $this->attempts[] = $attempt;
+            $attempt->setWord($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttempt(Attempt $attempt): self
+    {
+        if ($this->attempts->removeElement($attempt)) {
+            // set the owning side to null (unless already changed)
+            if ($attempt->getWord() === $this) {
+                $attempt->setWord(null);
+            }
+        }
 
         return $this;
     }
