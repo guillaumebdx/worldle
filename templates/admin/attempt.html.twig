@@ -11,18 +11,22 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Tentative</th>
+                        <th scope="col">Essai N°</th>
                         <th scope="col">Mot valide</th>
                         <th scope="col">Heure</th>
                     </tr>
                     </thead>
                     <tbody>
                 {% for attempt in attempts %}
-                    <tr>
+                    <tr class="{{ attempt.isSuccess ? 'bg-success text-white' : '' }}">
                         <th scope="row">
                             {{ attempt.id }}
                         </th>
                         <td>
                             {{ attempt.content }}
+                        </td>
+                        <td>
+                            {{ attempt.number }}
                         </td>
                         <td>
                             {% if attempt.isValid %}
