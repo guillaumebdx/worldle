@@ -52,7 +52,6 @@ class WordController extends AbstractController
         $stats['success'] = count($attemptRepository->findBy(['createdAt' => new \DateTime(), 'isSuccess' => true]));
         $stats['attempts'] = count($attemptRepository->findBy(['createdAt' => new \DateTime()]));
         $stats['fails'] = count($attemptRepository->findBy(['createdAt' => new \DateTime(), 'number' => 6, 'isSuccess' => false]));
-        dump($stats);
         return $this->render('word/index.html.twig', [
             'in_working_lines' => $inWorkingLines,
             'in_working_colors' => $this->requestStack->getSession()->get('colors'),
