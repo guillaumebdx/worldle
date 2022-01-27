@@ -84,7 +84,7 @@ class ColorManager
 
     public function notMoreAwayThanTotal($letter)
     {
-        return $this->buildAways[$letter] < $this->countLetters[$letter];
+        return ($this->buildAways[$letter] + $this->firstCountValids[$letter]) < $this->countLetters[$letter];
     }
 
     public function notMoreGreenThanTotal($letter)
