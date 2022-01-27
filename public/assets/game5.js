@@ -88,7 +88,7 @@ const deleteLetterInSquare = () => {
 const checkWord = (word) => {
   if (letterCount === inWorkingSquare -1) {
     inWorkingSquare = 1;
-    fetch(`/check/${word}`, {
+    fetch(`/check/${word}/${inWorkingLine}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

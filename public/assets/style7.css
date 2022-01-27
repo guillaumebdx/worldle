@@ -79,12 +79,17 @@
     width: 50vw;
     z-index: 2;
 }
+.title-squares {
+    max-width: 50vw;
+}
 .title-squares > .square {
     width: 30px;
     height: 30px;
     font-size: 1.5rem;
 }
-
+.navbar > div > .icon-nav {
+    width: 15px;
+}
 .cursor-pointer {
     cursor: pointer;
 }

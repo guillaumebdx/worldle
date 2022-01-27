@@ -55,6 +55,11 @@ class Attempt
     private $createdOn;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $number;
+
+    /**
      * @ORM\PrePersist
      */
     public function onPrePersist()
@@ -148,6 +153,18 @@ class Attempt
     public function setCreatedOn(\DateTimeInterface $createdOn): self
     {
         $this->createdOn = $createdOn;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?int $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }

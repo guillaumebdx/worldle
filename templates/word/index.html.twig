@@ -4,8 +4,13 @@
 
 {% block body %}
     <nav class="navbar navbar-dark bg-dark d-flex justify-content-between">
-        <div class="square text-white ms-3 cursor-pointer" data-bs-toggle="modal" data-bs-target="#help-modal">
-            <span><i class="fas fa-question"></i></span>
+        <div class="d-flex">
+            <div class="square text-white ms-3 cursor-pointer icon-nav" data-bs-toggle="modal" data-bs-target="#help-modal">
+                <span title="Aide"><i class="fas fa-question"></i></span>
+            </div>
+            <div class="square text-white ms-3 cursor-pointer icon-nav" data-bs-toggle="modal" data-bs-target="#stats-modal">
+                <span><i class="fas fa-chart-bar"></i></span>
+            </div>
         </div>
         <div class="word-container d-flex justify-content-center title-squares">
             <div class="square green" >
@@ -31,7 +36,7 @@
             </div>
         </div>
         <div class="square text-white me-3 cursor-pointer" data-bs-toggle="modal" data-bs-target="#info-modal">
-            <span><i class="fas fa-lightbulb"></i></span>
+            <span title="Informations"><i class="fas fa-lightbulb"></i></span>
         </div>
     </nav>
     <div id="invalid-word" class="alert alert-warning text-center d-none">Ce mot n'existe pas !</div>
@@ -147,6 +152,26 @@
                     <i class="fas fa-code fs-2 me-2 mt-2"></i> Le code source est disponible <a href="https://github.com/guillaumebdx/worldle" target="_blank">ici</a>
                     <br>
                     <i class="fas fa-coffee fs-2 me-2 mt-2"></i> Et si vous voulez dire merci, vous pouvez me payer un café <a href="https://www.paypal.com/paypalme/SauvegardeRobot" target="_blank">ici ! </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="stats-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Stats</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Aujourd'hui <br>
+                    <ul class="list-group">
+                        <li class="list-group-item"><i class="fas fa-rocket"></i> <span class="fw-bold">{{ stats.success }}</span> parties réussies</li>
+                        <li class="list-group-item"><i class="far fa-thumbs-down"></i> <span class="fw-bold">{{ stats.fails }}</span> parties perdues</li>
+                        <li class="list-group-item"><i class="fas fa-bullseye"></i> <span class="fw-bold">{{ stats.attempts }}</span> mots tentés</li>
+                    </ul>
+
                 </div>
             </div>
         </div>
