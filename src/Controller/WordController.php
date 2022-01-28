@@ -8,6 +8,7 @@ use App\Repository\WordRepository;
 use App\Service\ColorManager;
 use App\Service\Lexique;
 use App\Service\SessionHandler;
+use App\Service\StatManager;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,7 +32,8 @@ class WordController extends AbstractController
     /**
      * @Route("/", name="word")
      */
-    public function index(WordRepository $wordRepository, RequestStack $requestStack): Response
+    public function index(WordRepository $wordRepository,
+                          StatManager $statManager): Response
     {
         $session = $this->requestStack->getSession();
         $lastDate = $session->get('time');
@@ -47,11 +49,7 @@ class WordController extends AbstractController
         $keyboard1    = str_split('AZERTYUIOP');
         $keyboard2    = str_split('QSDFGHJKL');
         $keyboard3    = str_split('WXCVBNM');
-        $attemptRepository = $this->managerRegistry->getRepository(Attempt::class);
-        $stats = [];
-        $stats['success'] = count($attemptRepository->findBy(['createdAt' => new \DateTime(), 'isSuccess' => true]));
-        $stats['attempts'] = count($attemptRepository->findBy(['createdAt' => new \DateTime()]));
-        $stats['fails'] = count($attemptRepository->findBy(['createdAt' => new \DateTime(), 'number' => 6, 'isSuccess' => false]));
+
         return $this->render('word/index.html.twig', [
             'in_working_lines' => $inWorkingLines,
             'in_working_colors' => $this->requestStack->getSession()->get('colors'),
@@ -60,7 +58,7 @@ class WordController extends AbstractController
             'keyboard1'        => $keyboard1,
             'keyboard2'        => $keyboard2,
             'keyboard3'        => $keyboard3,
-            'stats'            => $stats,
+            'stats'            => $statManager->buildStats(),
         ]);
     }
 
