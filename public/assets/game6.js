@@ -67,6 +67,7 @@ copyButton.addEventListener('click', (event) => {
       }
       text += '\n';
     }
+    text += 'https://worldle.harari.ovh';
     navigator.clipboard.writeText(text);
     copyButton.innerHTML = 'Copié !';
 });
