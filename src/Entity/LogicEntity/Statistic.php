@@ -10,7 +10,7 @@ class Statistic
 
     private int $fails;
 
-    private int $average;
+    private array $successByAttempts;
 
     /**
      * @return int
@@ -20,8 +20,23 @@ class Statistic
         return $this->fails / ($this->success + $this->fails) * 100;
     }
 
+    /**
+     * @return array
+     */
+    public function getSuccessByAttempts(): array
+    {
+        return $this->successByAttempts;
+    }
 
-
+    /**
+     * @param array $successByAttempts
+     * @return Statistic
+     */
+    public function setSuccessByAttempts(array $successByAttempts): Statistic
+    {
+        $this->successByAttempts = $successByAttempts;
+        return $this;
+    }
 
     /**
      * @return int

@@ -171,6 +171,16 @@
                         <li class="list-group-item"><i class="far fa-thumbs-down"></i> <span class="fw-bold">{{ stats.fails }}</span> parties perdues</li>
                         <li class="list-group-item"><i class="fas fa-bullseye"></i> <span class="fw-bold">{{ stats.attempts }}</span> mots tentés</li>
                     </ul>
+                    <ul class="list-group mt-3">
+                        {% for key, successByAttempt in stats.successByAttempts %}
+                            <li class="list-group-item">
+                                Ligne <span class="fw-bold">{{ key }}</span> : {{ successByAttempt }} réussite{{ successByAttempt <= 1 ? '' : 's' }}
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ successByAttempt / stats.success * 100 }}%;" aria-valuenow="{{ successByAttempt / stats.success * 100 }}" aria-valuemin="0" aria-valuemax="100">{{ successByAttempt }}</div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
 
                 </div>
             </div>

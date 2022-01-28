@@ -25,8 +25,19 @@ class StatManager
         $statistic = new Statistic();
         $statistic->setSuccess($this->getSuccessCount())
             ->setAttempts($this->getAttemptCount())
-            ->setFails($this->getFailCount());
+            ->setFails($this->getFailCount())
+            ->setSuccessByAttempts($this->getSuccessByAttempts())
+        ;
         return $statistic;
+    }
+
+    public function getSuccessByAttempts(): array
+    {
+        $results = [];
+        for ($i = 1; $i <= self::MAX_ATTEMPT; $i++) {
+            $results[$i] = count($this->attemptRepository->findBy(['createdAt' => $this->date, 'number' => $i, 'isSuccess' => true]));
+        }
+        return $results;
     }
 
     public function getSuccessCount(): int
