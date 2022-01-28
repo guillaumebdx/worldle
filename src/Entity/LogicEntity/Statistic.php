@@ -17,7 +17,11 @@ class Statistic
      */
     public function getAverage(): int
     {
-        return $this->fails / ($this->success + $this->fails) * 100;
+        $average = 0;
+        if ($this->success + $this->fails > 0) {
+            $average = $this->fails / ($this->success + $this->fails) * 100;
+        }
+        return $average;
     }
 
     /**

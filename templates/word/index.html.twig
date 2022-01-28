@@ -176,7 +176,9 @@
                             <li class="list-group-item">
                                 Ligne <span class="fw-bold">{{ key }}</span> : {{ successByAttempt }} réussite{{ successByAttempt <= 1 ? '' : 's' }}
                                 <div class="progress">
+                                    {% if (stats.success > 0) %}
                                     <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ successByAttempt / stats.success * 100 }}%;" aria-valuenow="{{ successByAttempt / stats.success * 100 }}" aria-valuemin="0" aria-valuemax="100">{{ successByAttempt }}</div>
+                                    {% endif %}
                                 </div>
                             </li>
                         {% endfor %}
