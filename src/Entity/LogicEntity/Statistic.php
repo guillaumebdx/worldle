@@ -19,7 +19,7 @@ class Statistic
     {
         $average = 0;
         if ($this->success + $this->fails > 0) {
-            $average = $this->fails / ($this->success + $this->fails) * 100;
+            $average = $this->success / ($this->success + $this->fails) * 100;
         }
         return $average;
     }
