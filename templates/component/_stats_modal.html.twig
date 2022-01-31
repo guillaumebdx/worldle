@@ -1,0 +1,31 @@
+<div class="modal fade" id="stats-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Stats</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Aujourd'hui <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><i class="fas fa-rocket"></i> <span class="fw-bold">{{ stats.success }}</span> parties réussies ({{ stats.average }} %)</li>
+                    <li class="list-group-item"><i class="far fa-thumbs-down"></i> <span class="fw-bold">{{ stats.fails }}</span> parties perdues</li>
+                    <li class="list-group-item"><i class="fas fa-bullseye"></i> <span class="fw-bold">{{ stats.attempts }}</span> mots tentés</li>
+                </ul>
+                <ul class="list-group mt-3">
+                    {% for key, successByAttempt in stats.successByAttempts %}
+                        <li class="list-group-item">
+                            Ligne <span class="fw-bold">{{ key }}</span> : {{ successByAttempt }} réussite{{ successByAttempt <= 1 ? '' : 's' }}
+                            <div class="progress">
+                                {% if (stats.success > 0) %}
+                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ successByAttempt / stats.success * 100 }}%;" aria-valuenow="{{ successByAttempt / stats.success * 100 }}" aria-valuemin="0" aria-valuemax="100">{{ successByAttempt }}</div>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>

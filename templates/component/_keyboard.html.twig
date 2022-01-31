@@ -1,0 +1,21 @@
+<div class="row mt-2">
+    <div class="col-12">
+        <div class="keyboard-line d-flex justify-content-center">
+            {% for letter in keyboard1 %}
+                <div class="keyboard-letter">{{ letter }}</div>
+            {% endfor %}
+        </div>
+        <div class="keyboard-line d-flex justify-content-center">
+            {% for letter in keyboard2 %}
+                <div class="keyboard-letter">{{ letter }}</div>
+            {% endfor %}
+        </div>
+        <div class="keyboard-line d-flex justify-content-center">
+            <div class="keyboard-letter suppr">Sup</div>
+            {% for letter in keyboard3 %}
+                <div class="keyboard-letter">{{ letter }}</div>
+            {% endfor %}
+            <div class="keyboard-letter enter">OK</div>
+        </div>
+    </div>
+</div>

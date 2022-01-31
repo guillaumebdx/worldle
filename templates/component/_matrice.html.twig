@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-12"
+         id="matrice"
+         data-colors="{% for colors in app.session.get('colors') %} {{ colors|join(',') }} {{ loop.last ? '' : '|' }} {% endfor %}"
+         data-success="{{ app.session.get('success') }}"
+         data-valids="{{ app.session.get('valids')|join(',') }}"
+         data-aways="{{ app.session.get('aways')|join(',') }}"
+         data-errors="{{ app.session.get('errors')|join(',') }}"
+         data-lettercount="{{ letters|length }}"
+         data-reloadcount="{{ in_working_lines|length }}">
+        {% for i in 1..6 %}
+            <div class="word-container d-flex justify-content-center" id="line-{{ i }}">
+                {% for letter in letters %}
+                    {% include('component/_letter.html.twig') %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>

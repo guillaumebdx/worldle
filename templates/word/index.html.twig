@@ -3,87 +3,11 @@
 {% block title %}Worldle{% endblock %}
 
 {% block body %}
-    <nav class="navbar navbar-dark bg-dark d-flex justify-content-between">
-        <div class="d-flex">
-            <div class="square text-white ms-3 cursor-pointer icon-nav" data-bs-toggle="modal" data-bs-target="#help-modal">
-                <span title="Aide"><i class="fas fa-question"></i></span>
-            </div>
-            <div class="square text-white ms-3 cursor-pointer icon-nav" data-bs-toggle="modal" data-bs-target="#stats-modal">
-                <span><i class="fas fa-chart-bar"></i></span>
-            </div>
-        </div>
-        <div class="word-container d-flex justify-content-center title-squares">
-            <div class="square green" >
-                <span>W</span>
-            </div>
-            <div class="square text-white" >
-                <span>O</span>
-            </div>
-            <div class="square green" >
-                <span>R</span>
-            </div>
-            <div class="square text-white" >
-                <span>D</span>
-            </div>
-            <div class="square green" >
-                <span>L</span>
-            </div>
-            <div class="square text-white" >
-                <span>E</span>
-            </div>
-            <div class="square green " >
-                <span><i class="fas fa-globe-americas"></i></span>
-            </div>
-        </div>
-        <div class="square text-white me-3 cursor-pointer" data-bs-toggle="modal" data-bs-target="#info-modal">
-            <span title="Informations"><i class="fas fa-lightbulb"></i></span>
-        </div>
-    </nav>
+    {% include('component/_navbar.html.twig') %}
     <div id="invalid-word" class="alert alert-warning text-center d-none">Ce mot n'existe pas !</div>
-
     <div class="container mt-3">
-        <div class="row">
-            <div class="col-12"
-                    id="matrice"
-                    data-colors="{% for colors in app.session.get('colors') %} {{ colors|join(',') }} {{ loop.last ? '' : '|' }} {% endfor %}"
-                    data-success="{{ app.session.get('success') }}"
-                    data-valids="{{ app.session.get('valids')|join(',') }}"
-                    data-aways="{{ app.session.get('aways')|join(',') }}"
-                    data-errors="{{ app.session.get('errors')|join(',') }}"
-                    data-lettercount="{{ letters|length }}"
-                    data-reloadcount="{{ in_working_lines|length }}">
-                {% for i in 1..6 %}
-                <div class="word-container d-flex justify-content-center" id="line-{{ i }}">
-                    {% for letter in letters %}
-                        <div class="square {{ in_working_colors[i -1] is defined ? in_working_colors[i -1][loop.index -1] : '' }}" >
-                            <span id="square-{{ i }}-{{ loop.index }}">{{ in_working_lines[i -1] is defined ? in_working_lines[i -1][loop.index -1] : '' }}</span>
-                        </div>
-                    {% endfor %}
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col-12">
-                <div class="keyboard-line d-flex justify-content-center">
-                    {% for letter in keyboard1 %}
-                        <div class="keyboard-letter">{{ letter }}</div>
-                    {% endfor %}
-                </div>
-                <div class="keyboard-line d-flex justify-content-center">
-                    {% for letter in keyboard2 %}
-                        <div class="keyboard-letter">{{ letter }}</div>
-                    {% endfor %}
-                </div>
-                <div class="keyboard-line d-flex justify-content-center">
-                    <div class="keyboard-letter suppr">Sup</div>
-                    {% for letter in keyboard3 %}
-                        <div class="keyboard-letter">{{ letter }}</div>
-                    {% endfor %}
-                    <div class="keyboard-letter enter">OK</div>
-                </div>
-            </div>
-        </div>
+        {% include('component/_matrice.html.twig') %}
+        {% include('component/_keyboard.html.twig') %}
         <div class="row">
             <div class="col-12 mt-2">
                 🟩 Vert : Lettre correctement positionnée <br>
@@ -107,85 +31,8 @@
             </div>
         </div>
     </div>
+    {% include('/component/_help_modal.html.twig') %}
+    {% include('/component/_info_modal.html.twig') %}
+    {% include('/component/_stats_modal.html.twig') %}
 
-    <!-- Modal -->
-    <div class="modal fade" id="help-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Aide</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h2 class="">Qu'est ce que c'est ?</h2>
-                    WordleMonde est basé sur le célèbre <a href="https://www.powerlanguage.co.uk/wordle/" target="_blank">Wordle</a>, dont vous pouvez trouver une version quotidienne française
-                    <a href="https://wordle.louan.me/">ici</a> et <a href="https://sutom.nocle.fr/" target="_blank">là</a>.
-                    <br>
-                    <strong>Un seul mot par jour / Tout le monde a le même mot</strong>
-                    <br>
-                    La particularité de WordleMonde est que le mot à deviner est un lieu géographique.
-                    <br>
-                    <h2 class="mt-3">Comment jouer ?</h2>
-                    Écrivez un mot et découvrez si vos lettres sont existantes dans le mot du jour et correctement placées.
-                    <br>
-                    Attention, vous ne pouvez écrire uniquement des mots (noms communs ou noms propres) qui existent. L'application se connecte à Wikipedia pour vérifier l'orthographe de vos essais !
-                    <br>
-                    Le nombre de lettres peut varier selon le mot à deviner. Mais vous n'aurez toujours que 6 essais !
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="info-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Infos</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <span><i class="fas fa-globe-americas fs-2 me-2 mt-2"></i></span>
-                    L'application web WordleMonde est développée pour le plaisir par Guillaume HARARI
-                    <br>
-                    <i class="fas fa-cookie-bite fs-2 me-2 mt-2"></i> Elle est garantie sans cookies traceur ni publicité ni paiement. Et ça le restera.
-                    <br>
-                    <i class="fas fa-code fs-2 me-2 mt-2"></i> Le code source est disponible <a href="https://github.com/guillaumebdx/worldle" target="_blank">ici</a>
-                    <br>
-                    <i class="fas fa-coffee fs-2 me-2 mt-2"></i> Et si vous voulez dire merci, vous pouvez me payer un café <a href="https://www.paypal.com/paypalme/SauvegardeRobot" target="_blank">ici ! </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="stats-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Stats</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Aujourd'hui <br>
-                    <ul class="list-group">
-                        <li class="list-group-item"><i class="fas fa-rocket"></i> <span class="fw-bold">{{ stats.success }}</span> parties réussies ({{ stats.average }} %)</li>
-                        <li class="list-group-item"><i class="far fa-thumbs-down"></i> <span class="fw-bold">{{ stats.fails }}</span> parties perdues</li>
-                        <li class="list-group-item"><i class="fas fa-bullseye"></i> <span class="fw-bold">{{ stats.attempts }}</span> mots tentés</li>
-                    </ul>
-                    <ul class="list-group mt-3">
-                        {% for key, successByAttempt in stats.successByAttempts %}
-                            <li class="list-group-item">
-                                Ligne <span class="fw-bold">{{ key }}</span> : {{ successByAttempt }} réussite{{ successByAttempt <= 1 ? '' : 's' }}
-                                <div class="progress">
-                                    {% if (stats.success > 0) %}
-                                    <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{ successByAttempt / stats.success * 100 }}%;" aria-valuenow="{{ successByAttempt / stats.success * 100 }}" aria-valuemin="0" aria-valuemax="100">{{ successByAttempt }}</div>
-                                    {% endif %}
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}
