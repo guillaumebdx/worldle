@@ -113,7 +113,7 @@ const getCurrentWord = () => {
   return word;
 };
 
-const colorize = (data) => {
+const colorize = async (data) => {
   let currentLine = document.getElementById(`line-${inWorkingLine}`);
   if (data.validWord === false) {
     handleInvalidWord(currentLine);
@@ -134,10 +134,20 @@ const colorize = (data) => {
     }
     for (let i=0; i < data.result.length; i++) {
       currentLine.children[i].classList.add(data.result[i]);
+      if (data.result[i] === 'green') {
+        pyro(currentLine.children[i]);
+      }
+      await delay(100)
     }
   }
 }
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
+const pyro = async (pyroBlock) => {
+  pyroBlock.classList.add('pyro')
+  await delay(1000)
+  pyroBlock.classList.remove('pyro')
+}
 const handleInvalidWord = (currentLine) => {
   for (let i=0; i < currentLine.children.length; i++) {
     currentLine.children[i].children[0].innerHTML = '';

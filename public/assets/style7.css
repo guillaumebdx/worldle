@@ -183,3 +183,40 @@
         transform: scale3d(1, 1, 1);
     }
 }
+
+
+/* Pyro */
+.heart-solid {
+    font-weight: 900;
+    color: #E0245E;
+}
+
+.circleBlock {
+    height: 1.5rem;
+    cursor: pointer;
+    width: 2rem;
+}
+
+.pyro > .before {
+    display: block;
+    position: relative;
+    z-index:1;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    box-shadow: -12px -21.66667px blue, 24px -1.66667px #00ff84, 19px -1.33333px #002bff, -11px -30.66667px #ff009d, -10px -28.66667px #ffb300, -5px -31.66667px #ff006e, 26px -3.66667px #ff4000, 18px -35.66667px #ff00d0, -1px -33.66667px #00f6ff, 22px -38.66667px #99ff00, -6px -2.66667px #ff0400, -11px -33.66667px #6200ff, 15px -23.66667px #00ddff, -15px -38.66667px #00ffd0, -5px -3.66667px #00ffdd, -9px -17.66667px #a6ff00, -8px -1.33333px #0d00ff, 11px -30.66667px #005eff, 6px -41.66667px #ff00a6, 16px -10.66667px #ff004c, -24px -2.33333px #ff6600, 9px -32.66667px #ff0066, -21px -18.66667px #00ffa2, 23px -12.66667px #b700ff, 14px -19.66667px #9000ff, 12px -17.66667px #00bbff, 11px -38.66667px #ff002f, 14px -11.66667px #ffae00, 3px -7.66667px #f600ff, -6px -19.66667px #c800ff, -21px -22.66667px #d4ff00, -13px -37.66667px #ea00ff, -3px -41.66667px #ff00d4, 20px -10.66667px #00fff2, 9px -27.66667px #000dff, -2px -19.66667px #9dff00, 13px -39.66667px #a6ff00, 5px -2.66667px #0099ff, -15px -27.66667px #ea00ff, -16px -23.66667px #00fffb, -23px -36.66667px #00ff73, 6px -36.66667px #0088ff, 24px -17.66667px #0062ff, 22px -14.66667px #b300ff, 14px -20.66667px #9000ff, 21px -25.66667px #ff6600, 11px -18.66667px #1e00ff, 9px -12.66667px #c800ff, 18px -10.33333px #00ffc8, -1px -33.66667px #00ff33, 10px -6.66667px #ff008c;
+    animation: 1s bang ease-out 1, gravity 1s ease-in 1;
+
+}
+
+@keyframes bang {
+    from {
+        box-shadow: 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white, 0 0 white;
+    }
+}
+@keyframes gravity {
+    to {
+        transform: translateY(40px);
+        opacity: 0;
+    }
+}
