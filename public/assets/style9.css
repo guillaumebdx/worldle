@@ -93,6 +93,15 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.fa-coffee {
+    color: #6f4e37;
+}
+
+.fa-twitter {
+    color: #1DA1F2;
+}
+
 /* Animations */
 .shake {
     -webkit-animation-name: shake;
