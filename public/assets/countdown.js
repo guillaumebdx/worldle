@@ -5,6 +5,4 @@ timer.start({countdown: true, startValues: {seconds: parseInt(document.getElemen
 timer.addEventListener('secondsUpdated', function (e) {
     countdown.innerHTML = timer.getTimeValues().toString();
 });
-timer.addEventListener('targetAchieved', function (e) {
-    window.location = '/error-word';
-});
+
