@@ -41,15 +41,14 @@
     color: black;
     opacity: .3;
 }
-
-.green {
-    background-color: #83BA47;
+.yellow {
+    background-color: #F7E138;
     color: black;
     opacity: 1;
 }
 
-.yellow {
-    background-color: #F7E138;
+.green {
+    background-color: #83BA47;
     color: black;
     opacity: 1;
 }
