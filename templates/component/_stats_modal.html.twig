@@ -6,6 +6,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div class="mt-2 mb-2">
+                    Prochain lieu à deviner dans <span class="fw-bold" id="countdown"></span>
+                </div>
                 Aujourd'hui <br>
                 <ul class="list-group">
                     <li class="list-group-item"><i class="fas fa-rocket"></i> <span class="fw-bold">{{ stats.success }}</span> parties réussies ({{ stats.average }} %)</li>
@@ -24,7 +27,6 @@
                         </li>
                     {% endfor %}
                 </ul>
-
             </div>
         </div>
     </div>

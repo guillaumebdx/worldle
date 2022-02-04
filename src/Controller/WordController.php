@@ -50,6 +50,7 @@ class WordController extends AbstractController
         $keyboard2    = str_split('QSDFGHJKL');
         $keyboard3    = str_split('WXCVBNM');
 
+        $secondsToTomorrow = strtotime('tomorrow') - time();
         return $this->render('word/index.html.twig', [
             'in_working_lines' => $inWorkingLines,
             'in_working_colors' => $this->requestStack->getSession()->get('colors'),
@@ -59,6 +60,7 @@ class WordController extends AbstractController
             'keyboard2'        => $keyboard2,
             'keyboard3'        => $keyboard3,
             'stats'            => $statManager->buildStats(),
+            'seconds'          => $secondsToTomorrow,
         ]);
     }
 
