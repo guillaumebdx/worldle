@@ -39,6 +39,11 @@ class Word
      */
     private $attempts;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isVip;
+
     public function __construct()
     {
         $this->attempts = new ArrayCollection();
@@ -111,6 +116,18 @@ class Word
                 $attempt->setWord(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsVip(): ?bool
+    {
+        return $this->isVip;
+    }
+
+    public function setIsVip(?bool $isVip): self
+    {
+        $this->isVip = $isVip;
 
         return $this;
     }
