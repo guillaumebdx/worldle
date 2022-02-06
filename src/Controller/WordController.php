@@ -34,6 +34,7 @@ class WordController extends AbstractController
      */
     public function errorWord()
     {
+        //TODO vérifier s'il est VIP en JS pour gérer la redirection vers word ou word + param
         $this->addFlash('danger', 'La page a été rafraichie car le mot a changé.');
         return $this->redirectToRoute('word');
     }
@@ -115,6 +116,7 @@ class WordController extends AbstractController
         $this->managerRegistry->getManager()->persist($attempt);
         $this->managerRegistry->getManager()->flush();
         $response['wordServer'] = $wordOfTheDay->getContent();
+        dump($response);
         return new JsonResponse($response);
     }
 }
