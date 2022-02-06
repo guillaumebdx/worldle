@@ -233,12 +233,12 @@
 .blink-bulb  {
     animation: blink-bulb 20s infinite;
     transition: none;
-    animation-delay: 30s;
+    animation-delay: 20s;
 }
 
 @keyframes blink-bulb {
-    10%   { color: #FFF59E; box-shadow: 2px 5px 39px 3px yellow;  }
-    13%   { color: white; box-shadow: none }
-    17%   {color: #FFF59E; box-shadow: 2px 5px 39px 3px yellow; }
-    20%   { color: white; box-shadow: none }
+    10%   { box-shadow: 2px 5px 39px 3px yellow;  }
+    13%   { box-shadow: none }
+    17%   { box-shadow: 2px 5px 39px 3px yellow; }
+    20%   { box-shadow: none }
 }
