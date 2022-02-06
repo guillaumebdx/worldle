@@ -30,6 +30,15 @@ class WordController extends AbstractController
     }
 
     /**
+     * @Route("/error-word", name="error-word")
+     */
+    public function errorWord()
+    {
+        $this->addFlash('danger', 'La page a été rafraichie car le mot a changé.');
+        return $this->redirectToRoute('word');
+    }
+
+    /**
      * @Route("/{area}", name="word")
      */
     public function index(WordRepository $wordRepository,
@@ -65,14 +74,6 @@ class WordController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/error-word", name="error-word")
-     */
-    public function errorWord()
-    {
-        $this->addFlash('danger', 'La page a été rafraichie car le mot a changé.');
-        return $this->redirectToRoute('word');
-    }
     /**
      * @Route("/check/{word}/{attemptNumber}", name="check_word", methods="GET")
      */
