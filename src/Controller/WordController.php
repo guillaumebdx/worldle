@@ -116,7 +116,6 @@ class WordController extends AbstractController
         $this->managerRegistry->getManager()->persist($attempt);
         $this->managerRegistry->getManager()->flush();
         $response['wordServer'] = $wordOfTheDay->getContent();
-        dump($response);
         return new JsonResponse($response);
     }
 }
