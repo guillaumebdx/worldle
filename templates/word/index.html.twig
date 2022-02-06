@@ -7,6 +7,11 @@
     {% include('component/_flash.html.twig') %}
     <div id="invalid-word" class="alert alert-warning text-center d-none">Ce mot n'existe pas !</div>
     <div class="container mt-3">
+        {% if is_vip %}
+            <h2 class="text-center">
+            ⭐ VIP MODE ⭐
+            </h2>
+        {% endif %}
         {% include('component/_matrice.html.twig') %}
         {% include('component/_keyboard.html.twig') %}
         <div class="row">
@@ -21,7 +26,7 @@
                 <div class="alert alert-success">
                     Bien joué !
                 </div>
-                <div id="copy-me">WordleMonde du jour <br> @WordleMonde</div>
+                <div id="copy-me">WordleMonde du jour <br> @WordleMonde <span id="is-vip">{{ is_vip ? '⭐ VIP MODE ⭐' : '' }}</span></div>
                 <button class="btn btn-primary" role="button" id="copy-button">Copier pour partager !</button>
             </div>
             <div class="col-12 text-center" id="defeat">

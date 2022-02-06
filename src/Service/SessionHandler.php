@@ -37,4 +37,37 @@ class SessionHandler
         }
         $session->set('success', $response['success']);
     }
+
+    public function removeSessionOnNewType(string $area)
+    {
+        if ($area === '') {
+            $area = 'usual';
+        }
+        if ($area === 'vip-area') {
+            $area = 'vip';
+        }
+        $session = $this->requestStack->getSession();
+        if ($session->get('area') !== $area) {
+            $this->removeAllSessions();
+        }
+        $session->set('area', $area);
+    }
+
+    public function removeSessionOnNewDay()
+    {
+        $session = $this->requestStack->getSession();
+        $lastDate = $session->get('time');
+        $now = new \DateTime();
+        if ($lastDate && $lastDate->format('d') !== $now->format('d')) {
+            $this->removeAllSessions();
+        }
+    }
+
+    public function removeAllSessions()
+    {
+        $session = $this->requestStack->getSession();
+        foreach ($session->all() as $sessionType => $value) {
+            $session->remove($sessionType);
+        }
+    }
 }

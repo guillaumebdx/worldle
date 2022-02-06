@@ -30,21 +30,21 @@ class WordController extends AbstractController
     }
 
     /**
-     * @Route("/", name="word")
+     * @Route("/{area}", name="word")
      */
     public function index(WordRepository $wordRepository,
-                          StatManager $statManager): Response
+                          StatManager $statManager,
+                          SessionHandler $sessionHandler,
+                          $area = ''): Response
     {
-        $session = $this->requestStack->getSession();
-        $lastDate = $session->get('time');
-        $now = new \DateTime();
-        if ($lastDate && $lastDate->format('d') !== $now->format('d') ) {
-            foreach ($session->all() as $sessionType => $value) {
-               $session->remove($sessionType);
-            }
+        $sessionHandler->removeSessionOnNewType($area);
+        $sessionHandler->removeSessionOnNewDay();
+        $inWorkingLines = $this->requestStack->getSession()->get('lines');
+        if ($area === 'vip-area') {
+            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => true]);
+        } else {
+            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         }
-        $inWorkingLines = $session->get('lines');
-        $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
         $letters      = str_split($wordOfTheDay->getContent());
         $keyboard1    = str_split('AZERTYUIOP');
         $keyboard2    = str_split('QSDFGHJKL');
@@ -61,6 +61,7 @@ class WordController extends AbstractController
             'keyboard3'        => $keyboard3,
             'stats'            => $statManager->buildStats(),
             'seconds'          => $secondsToTomorrow,
+            'is_vip'           => $area === 'vip-area',
         ]);
     }
 
@@ -82,7 +83,12 @@ class WordController extends AbstractController
                               ColorManager $colorManager,
                               SessionHandler $sessionHandler)
     {
-        $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
+        $area = $this->requestStack->getSession()->get('area');
+        if ($area === 'vip') {
+            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => true]);
+        } else {
+            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
+        }
         if (strlen($wordOfTheDay->getContent()) !== strlen($word)) {
             return new JsonResponse(['wordServer' => $wordOfTheDay->getContent()]);
         }
