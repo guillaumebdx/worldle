@@ -59,7 +59,7 @@ class WordController extends AbstractController
             'keyboard1'        => $keyboard1,
             'keyboard2'        => $keyboard2,
             'keyboard3'        => $keyboard3,
-            'stats'            => $statManager->buildStats(),
+            'stats'            => $statManager->buildStats($area === 'vip-area'),
             'seconds'          => $secondsToTomorrow,
             'is_vip'           => $area === 'vip-area',
         ]);

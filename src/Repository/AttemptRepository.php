@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Attempt;
+use App\Service\StatManager;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,71 @@ class AttemptRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Attempt::class);
+    }
+
+    public function getSuccessCount(?\DateTime $date, bool $isVip)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.createdAt = :date')
+            ->andWhere('a.isSuccess = true')
+            ->join('a.word', 'w');
+            if ($isVip) {
+                $qb->andWhere('w.isVip = true');
+            } else {
+                $qb->andWhere('w.isVip is null');
+            }
+            $qb->setParameter('date', $date->format('Y-m-d'));
+            return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getAttemptCount(?\DateTime $date, bool $isVip)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.createdAt = :date')
+            ->join('a.word', 'w');
+        if ($isVip) {
+            $qb->andWhere('w.isVip = true');
+        } else {
+            $qb->andWhere('w.isVip is null');
+        }
+        $qb->setParameter('date', $date->format('Y-m-d'));
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getFailCount(?\DateTime $date, bool $isVip)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.createdAt = :date')
+            ->andWhere('a.isSuccess = false')
+            ->andWhere('a.number = ' . StatManager::MAX_ATTEMPT)
+            ->join('a.word', 'w');
+        if ($isVip) {
+            $qb->andWhere('w.isVip = true');
+        } else {
+            $qb->andWhere('w.isVip is null');
+        }
+        $qb->setParameter('date', $date->format('Y-m-d'));
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function getSuccessByAttempts(?\DateTime $date, bool $isVip, int $attempt)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.createdAt = :date')
+            ->andWhere('a.isSuccess = true')
+            ->andWhere('a.number = ' . $attempt)
+            ->join('a.word', 'w');
+        if ($isVip) {
+            $qb->andWhere('w.isVip = true');
+        } else {
+            $qb->andWhere('w.isVip is null');
+        }
+        $qb->setParameter('date', $date->format('Y-m-d'));
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     // /**

@@ -10,9 +10,11 @@ class StatManager
 {
     public const MAX_ATTEMPT = 6;
 
-    private DateTime $date;
+    private ?DateTime $date;
 
     private AttemptRepository $attemptRepository;
+
+    private bool $isVip;
 
     public function __construct(AttemptRepository $attemptRepository, $date = null)
     {
@@ -20,8 +22,9 @@ class StatManager
         $this->attemptRepository = $attemptRepository;
     }
 
-    public function buildStats() : Statistic
+    public function buildStats($isVip = false) : Statistic
     {
+        $this->isVip = $isVip;
         $statistic = new Statistic();
         $statistic->setSuccess($this->getSuccessCount())
             ->setAttempts($this->getAttemptCount())
@@ -35,26 +38,23 @@ class StatManager
     {
         $results = [];
         for ($i = 1; $i <= self::MAX_ATTEMPT; $i++) {
-            $results[$i] = count($this->attemptRepository->findBy(['createdAt' => $this->date, 'number' => $i, 'isSuccess' => true]));
+            $results[$i] = $this->attemptRepository->getSuccessByAttempts($this->date, $this->isVip, $i);
         }
         return $results;
     }
 
     public function getSuccessCount(): int
     {
-        return count($this->attemptRepository
-            ->findBy(['createdAt' => $this->date, 'isSuccess' => true]));
+        return $this->attemptRepository->getSuccessCount($this->date, $this->isVip);
     }
 
     public function getFailCount(): int
     {
-        return count($this->attemptRepository
-            ->findBy(['createdAt' => $this->date, 'number' => self::MAX_ATTEMPT, 'isSuccess' => false]));
+        return $this->attemptRepository->getFailCount($this->date, $this->isVip);
     }
 
     public function getAttemptCount(): int
     {
-        return count($this->attemptRepository
-            ->findBy(['createdAt' => $this->date]));
+        return $this->attemptRepository->getAttemptCount($this->date, $this->isVip);
     }
 }
