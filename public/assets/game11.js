@@ -61,7 +61,7 @@ copyButton.addEventListener('click', (event) => {
     event.stopPropagation();
     const lines = document.getElementsByClassName('line');
     let text = 'Mon @WordleMonde du jour #WordleMonde \n';
-    let vip = document.getElementById('is-vip').innerText;
+    let vip = document.getElementById('is-vip').innerText + '\n';
     text += vip;
     for (let i = 0; i < lines.length; i++) {
       for (square of lines[i].children) {
