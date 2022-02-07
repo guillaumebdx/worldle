@@ -63,6 +63,14 @@ class WordController extends AbstractController
     }
 
     /**
+     * @Route("/error-word", name="error-word")
+     */
+    public function errorWord()
+    {
+        $this->addFlash('danger', 'La page a été rafraichie car le mot a changé.');
+        return $this->redirectToRoute('word');
+    }
+    /**
      * @Route("/check/{word}/{attemptNumber}", name="check_word", methods="GET")
      */
     public function checkWord(string $word,
@@ -73,6 +81,9 @@ class WordController extends AbstractController
                               SessionHandler $sessionHandler)
     {
         $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
+        if (strlen($wordOfTheDay->getContent()) !== strlen($word)) {
+            return new JsonResponse(['wordServer' => $wordOfTheDay->getContent()]);
+        }
         $response              = [];
         $response['result']    = $colorManager->build($word, $wordOfTheDay->getContent());
         $response['success']   = false;
@@ -94,7 +105,7 @@ class WordController extends AbstractController
         }
         $this->managerRegistry->getManager()->persist($attempt);
         $this->managerRegistry->getManager()->flush();
-
+        $response['wordServer'] = $wordOfTheDay->getContent();
         return new JsonResponse($response);
     }
 }

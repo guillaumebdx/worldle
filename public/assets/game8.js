@@ -10,9 +10,9 @@ const copyMe = document.getElementById('copy-me');
 const copyButton = document.getElementById('copy-button');
 const sessionColors = matrice.dataset.colors.split('|');
 const sessionSuccess = matrice.dataset.success;
+const wordClient = document.getElementById('word-client').innerText;
 let inWorkingLine = 1;
 let inWorkingSquare = 1;
-
 inWorkingLine += reloadCount;
 
 for (let i = 0; i < keyboardLetters.length; i++) {
@@ -97,7 +97,11 @@ const checkWord = (word) => {
     }).then(response => {
       return response.json();
     }).then(data => {
-      colorize(data)
+      if(data.wordServer === wordClient) {
+        colorize(data)
+      } else {
+        window.location = '/error-word';
+      }
     });
   } else {
     console.log('do not check word');

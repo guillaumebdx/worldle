@@ -4,6 +4,7 @@
 
 {% block body %}
     {% include('component/_navbar.html.twig') %}
+    {% include('component/_flash.html.twig') %}
     <div id="invalid-word" class="alert alert-warning text-center d-none">Ce mot n'existe pas !</div>
     <div class="container mt-3">
         {% include('component/_matrice.html.twig') %}
@@ -26,7 +27,7 @@
             <div class="col-12 text-center" id="defeat">
                 <div class="alert alert-danger">
                     <div id="copy-me-defeat">WordleMonde du jour <br> @WordleMonde</div>
-                    C'est raté pour aujourd'hui ! Le mot était {% for letter in letters %} {{ letter }} {% endfor %}
+                    C'est raté pour aujourd'hui ! Le mot était <span id="word-client">{{ word.content }}</span>
                 </div>
             </div>
         </div>
