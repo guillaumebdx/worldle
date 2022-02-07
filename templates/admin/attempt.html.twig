@@ -5,10 +5,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="count">
-                    {{ pagination.getTotalItemCount }}
+                    {{ pagination.getTotalItemCount }} tentatives aujourd'hui
                 </div>
                 <h1>Tentatives du {{ date|date('d/m/Y') }}</h1>
-                <h2>Mot à deviner : {{ attempts[0].word.content }}</h2>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -22,7 +21,7 @@
                     </thead>
                     <tbody>
                 {% for attempt in pagination %}
-                    <tr class="{{ attempt.isSuccess ? 'bg-success text-white' : '' }}">
+                    <tr class="{{ attempt.isSuccess ? 'bg-success' : '' }}">
                         <th scope="row">
                             {{ attempt.id }}
                         </th>
