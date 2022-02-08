@@ -50,6 +50,7 @@ document.addEventListener('keydown', (event) => {
     deleteLetterInSquare();
   }
   if (event.key === 'Backspace' && inWorkingSquare > 1 && !gameOver) {
+    event.preventDefault();
     deleteLetterInSquare();
   }
   if (event.key === 'Enter' && !gameOver) {
