@@ -5,13 +5,14 @@
 {% block body %}
     {% include('component/_navbar.html.twig') %}
     {% include('component/_flash.html.twig') %}
-    <div id="invalid-word" class="alert alert-warning text-center d-none">Ce mot n'existe pas !</div>
+    <div id="invalid-word" class="alert alert-warning text-center d-none">Ce mot n'existe pas dans Wikipedia !</div>
     <div class="container mt-3">
         {% if is_vip %}
             <h2 class="text-center">
             ⭐ VIP MODE ⭐
             </h2>
         {% endif %}
+        <h2 class="text-center mb-3"> Recherchez un lieu géographique </h2>
         {% include('component/_matrice.html.twig') %}
         {% include('component/_keyboard.html.twig') %}
         <div class="row">
