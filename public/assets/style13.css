@@ -27,10 +27,12 @@
     user-select: none;
 }
 .suppr {
-    color: red;
+    color: white;
+    background-color: #c00202;
 }
 .enter {
-    color: #00ff00;
+    color: white;
+    background-color: #037e03;
 }
 .pressed {
     background-color: #fdffc9;
