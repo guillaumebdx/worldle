@@ -45,7 +45,7 @@ class AttemptRepository extends ServiceEntityRepository
         if ($isVip) {
             $qb->andWhere('w.isVip = true');
         } else {
-            $qb->andWhere('w.isVip is null');
+            $qb->andWhere('w.isVip is null or w.isVip = 0');
         }
         $qb->setParameter('date', $date->format('Y-m-d'));
         return $qb->getQuery()->getSingleScalarResult();
@@ -62,7 +62,7 @@ class AttemptRepository extends ServiceEntityRepository
         if ($isVip) {
             $qb->andWhere('w.isVip = true');
         } else {
-            $qb->andWhere('w.isVip is null');
+            $qb->andWhere('w.isVip is null or w.isVip = 0');
         }
         $qb->setParameter('date', $date->format('Y-m-d'));
         return $qb->getQuery()->getSingleScalarResult();
@@ -79,7 +79,7 @@ class AttemptRepository extends ServiceEntityRepository
         if ($isVip) {
             $qb->andWhere('w.isVip = true');
         } else {
-            $qb->andWhere('w.isVip is null');
+            $qb->andWhere('w.isVip is null or w.isVip = 0');
         }
         $qb->setParameter('date', $date->format('Y-m-d'));
         return $qb->getQuery()->getSingleScalarResult();
