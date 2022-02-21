@@ -1,6 +1,9 @@
 h1 {
     font-size: 1.25rem;
 }
+.navbar {
+    flex-wrap: nowrap;
+}
 
 .square {
     width: 50px;
