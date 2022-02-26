@@ -53,7 +53,7 @@ class WordController extends AbstractController
         if ($area === 'vip-area') {
             $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => true]);
         } else {
-            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
+            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => false]);
         }
         $letters      = str_split($wordOfTheDay->getContent());
         $keyboard1    = str_split('AZERTYUIOP');
@@ -89,7 +89,7 @@ class WordController extends AbstractController
         if ($area === 'vip') {
             $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => true]);
         } else {
-            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime()]);
+            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => false]);
         }
         if (strlen($wordOfTheDay->getContent()) !== strlen($word)) {
             return new JsonResponse(['wordServer' => $wordOfTheDay->getContent()]);
