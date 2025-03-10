@@ -95,9 +95,6 @@ h1 {
     height: 30px;
     font-size: 1.5rem;
 }
-.navbar > div > .icon-nav {
-    width: 15px;
-}
 .cursor-pointer {
     cursor: pointer;
 }
