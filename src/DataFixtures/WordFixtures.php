@@ -73,6 +73,7 @@ class WordFixtures extends Fixture
             $word = new Word();
             $word->setContent($wordData['content']);
             $word->setDefinition('à définir');
+            $word->setIsVip(false);
             $today = new \DateTime();
             $today->add(new \DateInterval('P' . $key . 'D'));
             $word->setPlayAt($today);
