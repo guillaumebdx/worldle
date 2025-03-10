@@ -110,6 +110,11 @@ h1 {
     color: #1DA1F2;
 }
 
+.error {
+    text-align: center;
+    margin-top: 10rem;
+}
+
 /* Animations */
 .shake {
     -webkit-animation-name: shake;

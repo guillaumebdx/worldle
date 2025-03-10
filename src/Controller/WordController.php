@@ -55,6 +55,14 @@ class WordController extends AbstractController
         } else {
             $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => false]);
         }
+
+        if (!$wordOfTheDay) {
+            return $this->render('error.html.twig', [
+                'message' => "Faites une petite pause, allez prendre l'air... <i class='fas fa-shoe-prints'></i><br/>
+                Le jeu revient bientôt !",
+            ]);
+        }
+
         $letters      = str_split($wordOfTheDay->getContent());
         $keyboard1    = str_split('AZERTYUIOP');
         $keyboard2    = str_split('QSDFGHJKL');

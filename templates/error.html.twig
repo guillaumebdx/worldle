@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WordleMonde - Devinez un lieu ! {% endblock %}
+
+{% block body %}
+    {% include('component/_navbar.html.twig') %}
+    <div class="container mt-3">
+        <div class="row error">
+            <p>
+                {{ message|raw }}
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block additional_javascripts %}
+{% endblock %}
