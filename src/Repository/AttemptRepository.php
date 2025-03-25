@@ -51,6 +51,18 @@ class AttemptRepository extends ServiceEntityRepository
         return $qb->getQuery()->getSingleScalarResult();
     }
 
+    public function getFirstAttemptCount(?\DateTime $date)
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->andWhere('a.createdAt = :date')
+            ->andWhere('a.number = 1')
+        ;
+
+        $qb->setParameter('date', $date->format('Y-m-d'));
+        return $qb->getQuery()->getSingleScalarResult();
+    }
+
     public function getFailCount(?\DateTime $date, bool $isVip)
     {
         $qb = $this->createQueryBuilder('a')

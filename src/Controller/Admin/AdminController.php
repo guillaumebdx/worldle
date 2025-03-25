@@ -30,10 +30,14 @@ class AdminController extends AbstractController
         $attempts = $this->managerRegistry
             ->getRepository(Attempt::class)
             ->findBy(['createdAt' => $date], ['id' => 'DESC']);
-        $pagination = $paginator->paginate($attempts, $request->query->getInt('page', 1),100);
+        $attemptors = $this->managerRegistry
+            ->getRepository(Attempt::class)
+            ->getFirstAttemptCount($date);
+
+            $pagination = $paginator->paginate($attempts, $request->query->getInt('page', 1),100);
         return $this->render('admin/attempt.html.twig', [
             'pagination' => $pagination,
-            'attempts' => $attempts,
+            'attemptors' => $attemptors,
             'date'     => $date,
         ]);
     }
