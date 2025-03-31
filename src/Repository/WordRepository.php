@@ -19,32 +19,16 @@ class WordRepository extends ServiceEntityRepository
         parent::__construct($registry, Word::class);
     }
 
-    // /**
-    //  * @return Word[] Returns an array of Word objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function isCompletedDate(\DateTime $date): bool
     {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('w.id', 'ASC')
-            ->setMaxResults(10)
+        $qb = $this->createQueryBuilder('w')
+            ->select('count(w)')
+            ->where('w.playAt = :date')
+            ->setParameter('date', $date->format('Y-m-d'))
             ->getQuery()
-            ->getResult()
+            ->getSingleScalarResult()
         ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Word
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $qb > 1;
     }
-    */
 }
