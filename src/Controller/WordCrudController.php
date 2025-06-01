@@ -36,6 +36,20 @@ class WordCrudController extends AbstractCrudController
             return;
         }
 
-        parent::persistEntity($entityManger, $entityInstance);
+        $existingWords = $entityManager->getRepository(Word::class)->findBy(['content' => $entityInstance->getContent()]);
+    
+        if ($existingWords) {
+            if (count($existingWords) === 1) {
+                $dateText = sprintf("le %s", $existingWords[0]->getPlayAt()->format('d/m/Y'));
+            } else {
+                $dateText = sprintf("aux dates suivantes : %s", implode(', ', array_map(function($word) {
+                    return $word->getPlayAt()->format('d/m/Y');
+                }, $existingWords)));
+            }
+
+            $this->addFlash('warning', sprintf('Pour information, ce mot a déjà été joué %s.', $dateText));
+        }
+
+        parent::persistEntity($entityManager, $entityInstance);
     }
 }

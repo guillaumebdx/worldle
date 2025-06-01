@@ -16,7 +16,7 @@ class Lexique
 
     public function isValid(string $word): bool
     {
-        $response = $this->client->request('GET', self::API_ENTRY_POINT . $word);
+        $response = $this->client->request('GET', self::API_ENTRY_POINT . strtolower($word));
         return isset($response->toArray()['warnings']);
     }
 }
