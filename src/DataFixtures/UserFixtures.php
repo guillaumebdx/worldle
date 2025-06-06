@@ -16,7 +16,7 @@ class UserFixtures extends Fixture
         $this->hasher = $hasher;
     }
 
-    public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager)
     {
         $user = new User();
         $user->setUsername('guillaume');
