@@ -95,9 +95,6 @@ h1 {
     height: 30px;
     font-size: 1.5rem;
 }
-.navbar > div > .icon-nav {
-    width: 15px;
-}
 .cursor-pointer {
     cursor: pointer;
 }
@@ -108,6 +105,11 @@ h1 {
 
 .fa-twitter {
     color: #1DA1F2;
+}
+
+.error {
+    text-align: center;
+    margin-top: 10rem;
 }
 
 /* Animations */
