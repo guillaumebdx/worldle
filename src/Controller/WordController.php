@@ -100,7 +100,7 @@ class WordController extends AbstractController
         $response['errors']    = $colorManager->getErrors();
         $response['valids']    = $colorManager->getValids();
         $response['aways']     = $colorManager->getAways();
-        $response['validWord'] = $lexique->isValid(strtolower($word));
+        $response['validWord'] = $lexique->isValid($word);
         $attempt = new Attempt();
         $attempt->setContent($word);
         $attempt->setWord($wordOfTheDay);
