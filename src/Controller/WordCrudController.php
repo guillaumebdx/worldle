@@ -10,12 +10,16 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Service\Lexique;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use App\Service\WordManager;
 
 class WordCrudController extends AbstractCrudController
 {
     private Lexique $lexique;
 
-    public function __construct(Lexique $lexique)
+    public function __construct(
+        Lexique $lexique,
+        private WordManager $wordManager
+        )
     {
         $this->lexique = $lexique;
     }
@@ -57,5 +61,15 @@ class WordCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud 
     {
        return $crud->setDefaultSort(['playAt' => 'desc']);
+    }
+
+    public function createEntity(string $entityFqcn)
+    {
+        $nextDateToFill = $this->wordManager->getNextDateToFill();
+
+        $word = new Word();
+        $word->setPlayAt($nextDateToFill);
+
+        return $word;
     }
 }

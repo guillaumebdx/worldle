@@ -10,6 +10,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=WordRepository::class)
+ * @ORM\Table(
+ *      indexes={@ORM\Index(columns={"play_at"}, name="playAt_index")}
+ * )
  * @UniqueEntity(
  *      fields={"playAt", "isVip"},
  *      message="Un mot a déjà été créé pour cette date et cette catégorie.",
