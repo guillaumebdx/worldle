@@ -6,9 +6,15 @@ use App\Repository\WordRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=WordRepository::class)
+ * @UniqueEntity(
+ *      fields={"playAt", "isVip"},
+ *      message="Un mot a déjà été créé pour cette date et cette catégorie.",
+ *      errorPath="playAt"
+ * )
  */
 class Word
 {

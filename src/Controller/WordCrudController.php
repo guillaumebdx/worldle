@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\Lexique;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class WordCrudController extends AbstractCrudController
 {
@@ -51,5 +52,10 @@ class WordCrudController extends AbstractCrudController
         }
 
         parent::persistEntity($entityManager, $entityInstance);
+    }
+    
+    public function configureCrud(Crud $crud): Crud 
+    {
+       return $crud->setDefaultSort(['playAt' => 'desc']);
     }
 }

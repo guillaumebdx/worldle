@@ -94,11 +94,9 @@ class WordController extends AbstractController
                               SessionHandler $sessionHandler)
     {
         $area = $this->requestStack->getSession()->get('area');
-        if ($area === 'vip') {
-            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => true]);
-        } else {
-            $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => false]);
-        }
+
+        $wordOfTheDay = $wordRepository->findOneBy(['playAt' => new \DateTime(), 'isVip' => $area === 'vip']);
+
         if (strlen($wordOfTheDay->getContent()) !== strlen($word)) {
             return new JsonResponse(['wordServer' => $wordOfTheDay->getContent()]);
         }
