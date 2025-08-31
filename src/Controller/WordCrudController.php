@@ -15,13 +15,15 @@ use App\Service\WordManager;
 class WordCrudController extends AbstractCrudController
 {
     private Lexique $lexique;
+    private WordManager $wordManager;
 
     public function __construct(
         Lexique $lexique,
-        private WordManager $wordManager
+        WordManager $wordManager
         )
     {
         $this->lexique = $lexique;
+        $this->wordManager = $wordManager;
     }
 
     public static function getEntityFqcn(): string

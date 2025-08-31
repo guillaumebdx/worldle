@@ -6,10 +6,13 @@ use App\Repository\WordRepository;
 
 class WordManager 
 {
+    private WordRepository $wordRepository;
+
     public function __construct(
-        private WordRepository $wordRepository
+        WordRepository $wordRepository
     )
     {
+        $this->wordRepository = $wordRepository;
     }
 
     public function getNextDateToFill(): \DateTime
