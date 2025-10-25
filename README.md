@@ -25,5 +25,12 @@ You do not need Webpack or node for this project.
 
 If you need admin access, you have to create a new account and update the user with ["ROLE_ADMIN"] in database
 
+
+## Docker
+You can also use Docker
+
+check DOCKER_README.md for more information
+
+
 The step by step is for usual Symfony developers. If you can't install for any reason, do not hesitate to contact me : guillaumeharari@hotmail.com 
 

@@ -1,14 +1,14 @@
-version: '3'
-
-services:
-###> symfony/mailer ###
-  mailer:
-    image: schickling/mailcatcher
-    ports: [1025, 1080]
-###< symfony/mailer ###
-
-###> doctrine/doctrine-bundle ###
-  database:
-    ports:
-      - "5432"
-###< doctrine/doctrine-bundle ###
+# Ce fichier peut être utilisé pour des overrides locaux
+# Exemple : exposer des ports différents, ajouter des volumes, etc.
+# 
+# Décommentez le bloc ci-dessous si vous souhaitez utiliser Mailcatcher pour tester les emails
+#
+# version: '3.8'
+# services:
+#   mailer:
+#     image: schickling/mailcatcher
+#     ports:
+#       - "1025:1025"
+#       - "1080:1080"
+#     networks:
+#       - worldle
