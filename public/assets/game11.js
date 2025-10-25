@@ -83,6 +83,12 @@ const addLetterInSquare = (letter) => {
   }
   inWorkingSquare++;
   square.innerHTML += letter;
+  
+  // Ajouter l'animation bounce
+  square.parentElement.classList.add('bounce');
+  setTimeout(() => {
+    square.parentElement.classList.remove('bounce');
+  }, 300);
 };
 
 const deleteLetterInSquare = () => {

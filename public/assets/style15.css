@@ -8,7 +8,7 @@ h1 {
 .square {
     width: 50px;
     height: 50px;
-    border: 1px solid black;
+    border: 2px solid #3a3a3c;
     margin-right: 5px;
     margin-bottom: 5px;
     display: flex;
@@ -16,22 +16,32 @@ h1 {
     align-items: center;
     font-size: 2rem;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .keyboard-letter {
     width: 10vw;
     height: 30px;
     margin: 1px;
-    border: 1px solid;
+    border: none;
     text-align: center;
-    border-radius: 4px;
-    background-color: #3d2e2e;
-    color: #fdffc9;
+    border-radius: 6px;
+    background-color: #818384;
+    color: #ffffff;
     cursor: pointer;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    transition: all 0.1s ease;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.keyboard-letter:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 .suppr {
     color: white;
@@ -42,28 +52,34 @@ h1 {
     background-color: #037e03;
 }
 .pressed {
-    background-color: #fdffc9;
-    color: #3d2e2e;
+    background-color: #d3d6da;
+    color: #1a1a1b;
+    transform: scale(0.95);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset;
 }
 .blue {
-    background-color: #3090E5;
-    color: black;
-    opacity: .3;
+    background-color: #787c7e;
+    color: white;
+    opacity: 1;
+    border-color: #787c7e;
 }
 .yellow {
-    background-color: #F7E138;
-    color: black;
+    background-color: #c9b458;
+    color: white;
     opacity: 1;
+    border-color: #c9b458;
 }
 
 .green {
-    background-color: #83BA47;
-    color: black;
+    background-color: #6aaa64;
+    color: white;
     opacity: 1;
+    border-color: #6aaa64;
+    box-shadow: 0 0 10px rgba(106, 170, 100, 0.4);
 }
 
 .hint-letter {
-    color: #83BA47;
+    color: #6aaa64;
     opacity: 0.3;
     font-size: 2rem;
     font-weight: bold;
@@ -261,4 +277,18 @@ h1 {
     13%   { box-shadow: none }
     17%   { box-shadow: 2px 5px 39px 3px yellow; }
     20%   { box-shadow: none }
+}
+
+/* Bounce animation pour les lettres */
+.bounce {
+    animation: bounce 0.3s ease;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
 }
