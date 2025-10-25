@@ -61,6 +61,15 @@ h1 {
     color: black;
     opacity: 1;
 }
+
+.hint-letter {
+    color: #83BA47;
+    opacity: 0.3;
+    font-size: 2rem;
+    font-weight: bold;
+    pointer-events: none;
+    position: absolute;
+}
 #victory {
     display: none;
 }

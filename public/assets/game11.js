@@ -76,6 +76,11 @@ copyButton.addEventListener('click', (event) => {
 
 const addLetterInSquare = (letter) => {
   let square = document.getElementById(`square-${inWorkingLine}-${inWorkingSquare}`);
+  // Supprimer le hint s'il existe
+  const hint = square.parentElement.querySelector('.hint-letter');
+  if (hint) {
+    hint.remove();
+  }
   inWorkingSquare++;
   square.innerHTML += letter;
 };
@@ -144,6 +149,10 @@ const colorize = async (data) => {
         pyro(currentLine.children[i]);
       }
       await delay(100)
+    }
+    // Afficher les lettres vertes sur la ligne suivante
+    if (!gameOver) {
+      displayGreenHints(data);
     }
   }
 }
@@ -241,3 +250,81 @@ colorizeKeyboard(sessionData);
 if (sessionSuccess) {
   displayVictory();
 }
+
+// Fonction pour afficher les lettres vertes en transparence sur la ligne suivante
+const displayGreenHints = (data) => {
+  const nextLine = document.getElementById(`line-${inWorkingLine}`);
+  if (!nextLine) return;
+  
+  // Récupérer TOUTES les lettres vertes trouvées jusqu'à présent (pas seulement la dernière ligne)
+  const greenPositions = {};
+  
+  // Parcourir toutes les lignes précédentes pour accumuler les lettres vertes
+  for (let lineNum = 1; lineNum < inWorkingLine; lineNum++) {
+    const line = document.getElementById(`line-${lineNum}`);
+    if (line) {
+      for (let i = 0; i < line.children.length; i++) {
+        const squareContainer = line.children[i];
+        if (squareContainer.classList.contains('green')) {
+          const letter = squareContainer.querySelector('.heart').textContent;
+          greenPositions[i] = letter;
+        }
+      }
+    }
+  }
+  
+  // Afficher les hints sur la ligne suivante
+  for (const [position, letter] of Object.entries(greenPositions)) {
+    const squareContainer = nextLine.children[position];
+    const square = squareContainer.querySelector('.heart');
+    
+    // Créer un élément hint seulement si la case est vide
+    if (square && square.innerHTML.trim() === '') {
+      const hint = document.createElement('span');
+      hint.classList.add('hint-letter');
+      hint.textContent = letter;
+      squareContainer.appendChild(hint);
+    }
+  }
+};
+
+// Afficher les hints pour les lettres vertes déjà trouvées au chargement de la page
+const displayInitialHints = () => {
+  if (sessionColors[0] !== '' && !sessionSuccess && inWorkingLine < numberOfLines) {
+    // Récupérer toutes les lettres vertes des lignes précédentes
+    const greenPositions = {};
+    
+    for (let lineIndex = 0; lineIndex < sessionColors.length; lineIndex++) {
+      const colors = sessionColors[lineIndex].split(',').map(c => c.trim());
+      const lineElement = document.getElementById(`line-${lineIndex + 1}`);
+      
+      if (lineElement) {
+        for (let i = 0; i < colors.length; i++) {
+          if (colors[i] === 'green') {
+            const letter = lineElement.children[i].querySelector('.heart').textContent;
+            greenPositions[i] = letter;
+          }
+        }
+      }
+    }
+    
+    // Afficher les hints sur la ligne en cours
+    const currentLine = document.getElementById(`line-${inWorkingLine}`);
+    if (currentLine) {
+      for (const [position, letter] of Object.entries(greenPositions)) {
+        const squareContainer = currentLine.children[position];
+        const square = squareContainer.querySelector('.heart');
+        
+        if (square && square.innerHTML.trim() === '') {
+          const hint = document.createElement('span');
+          hint.classList.add('hint-letter');
+          hint.textContent = letter;
+          squareContainer.appendChild(hint);
+        }
+      }
+    }
+  }
+};
+
+// Appeler la fonction au chargement
+displayInitialHints();
