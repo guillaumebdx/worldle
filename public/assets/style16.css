@@ -51,9 +51,55 @@ h1 {
     transform: translateY(0);
 }
 
-/* Ajuster le padding du body pour le bottom nav */
+/* Ajuster le padding du body pour le bottom nav et le clavier */
 body {
-    padding-bottom: 70px;
+    padding-bottom: 280px;
+}
+
+/* Titre du jeu élégant */
+.game-title {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #1a1a1b;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.5px;
+}
+
+/* Badge VIP */
+.vip-badge {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffd700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+/* Légende moderne */
+.legend-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.legend-square {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .square {
@@ -70,6 +116,17 @@ body {
     border-radius: 8px;
     transition: all 0.15s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Clavier fixé en bas */
+#keyboard {
+    position: fixed;
+    bottom: 90px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(18, 18, 19, 0) 0%, #121213 20%, #121213 100%);
+    padding: 20px 5px 15px 5px;
+    z-index: 999;
 }
 
 .keyboard-letter {

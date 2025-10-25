@@ -8,20 +8,13 @@
     <div id="invalid-word" class="alert alert-warning text-center d-none">Ce mot n'existe pas dans Wikipedia !</div>
     <div class="container mt-3">
         {% if is_vip %}
-            <h2 class="text-center">
-            ⭐ VIP MODE ⭐
-            </h2>
+            <div class="vip-badge">
+                ⭐ VIP MODE ⭐
+            </div>
         {% endif %}
-        <h2 class="text-center mb-3"> Recherchez un lieu géographique </h2>
+        <h2 class="game-title">Devinez le lieu du jour</h2>
         {% include('component/_matrice.html.twig') %}
         {% include('component/_keyboard.html.twig') %}
-        <div class="row">
-            <div class="col-12 mt-2">
-                🟩 Vert : Lettre correctement positionnée <br>
-                🟨 Jaune : Lettre mal positionnée <br>
-                🟦 Bleu : inexistante
-            </div>
-        </div>
         <div class="row">
             <div class="col-12 text-center" id="victory">
                 <div class="alert alert-success">
