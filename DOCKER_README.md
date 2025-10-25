@@ -18,8 +18,27 @@ Cette commande va :
 - Démarrer MySQL 5.7
 - Démarrer PHP-FPM
 - Démarrer Nginx
+- Créer les volumes optimisés pour `vendor` et `var`
 
-### 2. Installer les dépendances Composer (si nécessaire)
+### 2. Installer les dépendances Composer
+
+**Sur Windows, utilisez cette méthode optimisée pour éviter les timeouts :**
+
+```bash
+# Installer avec un conteneur Composer dédié (plus rapide)
+docker run --rm -v "$(pwd):/app" -w /app -e COMPOSER_PROCESS_TIMEOUT=0 composer:2.2 composer install --ignore-platform-reqs --no-scripts --prefer-source
+
+# Copier vendor dans le volume Docker (pour les performances)
+docker cp ./vendor/. worldle_php:/var/www/vendor/
+
+# Configurer les permissions
+docker-compose exec php chown -R www-data:www-data /var/www/var
+
+# Redémarrer PHP
+docker-compose restart php
+```
+
+**Alternative (si vous avez déjà vendor installé localement) :**
 
 ```bash
 docker-compose exec php composer install
@@ -46,7 +65,7 @@ docker-compose exec php php bin/console doctrine:fixtures:load
 ## Accès à l'application
 
 - **Application web** : http://localhost:8080
-- **MySQL** : localhost:3306
+- **MySQL** : localhost:3307 (⚠️ port modifié pour éviter les conflits)
   - Database: `worldle`
   - User: `symfony`
   - Password: `symfony`
@@ -131,6 +150,36 @@ DATABASE_URL="mysql://symfony:symfony@database:3306/worldle?serverVersion=5.7"
 - **docker/nginx/nginx.conf** : Configuration Nginx pour Symfony
 - **.dockerignore** : Fichiers à exclure lors du build
 
+## Optimisations de performance (Windows)
+
+### Volumes nommés pour vendor et var
+
+Pour améliorer drastiquement les performances sur Docker Desktop Windows, les dossiers `vendor` et `var` sont stockés dans des volumes Docker nommés au lieu d'être montés depuis Windows.
+
+**Avantages :**
+- ⚡ Chargement des pages **10x plus rapide**
+- 🚀 Pas de timeout lors de l'installation Composer
+- 💾 Cache Symfony optimisé
+
+**Configuration dans `docker-compose.yml` :**
+```yaml
+volumes:
+  - ./:/var/www                    # Code source monté depuis Windows
+  - vendor-data:/var/www/vendor    # Vendor dans un volume Docker (rapide)
+  - var-data:/var/www/var          # Cache dans un volume Docker (rapide)
+```
+
+### Première installation
+
+Lors de la première installation, il faut copier `vendor` dans le volume :
+
+```bash
+# Après avoir installé les dépendances localement
+docker cp ./vendor/. worldle_php:/var/www/vendor/
+docker-compose exec php chown -R www-data:www-data /var/www/var
+docker-compose restart php
+```
+
 ## Troubleshooting
 
 ### Erreur de connexion à la base de données
@@ -152,4 +201,25 @@ docker-compose exec php chown -R www-data:www-data /var/www/var
 ```bash
 docker-compose down -v
 docker-compose up -d --build --force-recreate
+
+# Ne pas oublier de recopier vendor après un rebuild avec -v
+docker cp ./vendor/. worldle_php:/var/www/vendor/
+docker-compose exec php chown -R www-data:www-data /var/www/var
+```
+
+### Réinitialiser les tentatives de jeu
+
+```bash
+# Supprimer toutes les tentatives
+docker-compose exec php php bin/console doctrine:query:sql "DELETE FROM attempt"
+
+# Vider le cache
+docker-compose exec php php bin/console cache:clear
+```
+
+### Problème "Unable to create cache directory"
+
+```bash
+docker-compose exec php chown -R www-data:www-data /var/www/var
+docker-compose exec php php bin/console cache:clear
 ```

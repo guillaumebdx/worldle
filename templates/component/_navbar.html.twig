@@ -1,26 +1,30 @@
-<nav class="navbar navbar-dark bg-dark d-flex justify-content-between">
-    <div class="d-flex">
-        <div class="square text-white ms-3 cursor-pointer" data-bs-toggle="modal" data-bs-target="#help-modal">
-            <span title="Aide"><i class="fas fa-question"></i></span>
-        </div>
-        <div class="square text-white ms-3 cursor-pointer" data-bs-toggle="modal" data-bs-target="#stats-modal">
-            <span><i class="fas fa-chart-bar"></i></span>
-        </div>
-    </div>
+<nav class="navbar navbar-dark bg-dark d-flex justify-content-center">
     <div class="word-container d-flex justify-content-center align-items-center title-squares">
-        <div class="text-white" >
-            <h1>W O R D L E </h1>
-        </div>
-        <div class="square green ms-1">
+        <div class="square green me-2">
             <span><i class="fas fa-globe-americas"></i></span>
         </div>
+        <div class="text-white" >
+            <h1>W O R D L E</h1>
+        </div>
     </div>
-    <div class="d-flex">
-        <div class="square text-warning cursor-pointer" data-bs-toggle="modal" data-bs-target="#vip-modal">
-            <span title="VIP"><i class="blink-bulb fas fa-star"></i></span>
-        </div>
-        <div class="square text-white me-3 cursor-pointer" data-bs-toggle="modal" data-bs-target="#info-modal">
-            <span title="Informations"><i class="fas fa-lightbulb"></i></span>
-        </div>
+</nav>
+
+<!-- Bottom Navigation -->
+<nav class="bottom-nav">
+    <div class="bottom-nav-item cursor-pointer" data-bs-toggle="modal" data-bs-target="#help-modal">
+        <i class="fas fa-question-circle"></i>
+        <span>Aide</span>
+    </div>
+    <div class="bottom-nav-item cursor-pointer" data-bs-toggle="modal" data-bs-target="#stats-modal">
+        <i class="fas fa-chart-bar"></i>
+        <span>Stats</span>
+    </div>
+    <div class="bottom-nav-item cursor-pointer" data-bs-toggle="modal" data-bs-target="#vip-modal">
+        <i class="fas fa-star blink-bulb"></i>
+        <span>VIP</span>
+    </div>
+    <div class="bottom-nav-item cursor-pointer" data-bs-toggle="modal" data-bs-target="#info-modal">
+        <i class="fas fa-info-circle"></i>
+        <span>Info</span>
     </div>
 </nav>

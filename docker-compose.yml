@@ -28,6 +28,8 @@ services:
     working_dir: /var/www
     volumes:
       - ./:/var/www
+      - vendor-data:/var/www/vendor
+      - var-data:/var/www/var
     networks:
       - worldle
     depends_on:
@@ -54,4 +56,8 @@ networks:
 
 volumes:
   db-data:
+    driver: local
+  vendor-data:
+    driver: local
+  var-data:
     driver: local

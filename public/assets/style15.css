@@ -5,6 +5,57 @@ h1 {
     flex-wrap: nowrap;
 }
 
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #1a1a1b;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0 12px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    border-top: 1px solid #3a3a3c;
+}
+
+.bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #818384;
+    transition: all 0.2s ease;
+    padding: 4px 12px;
+    min-width: 60px;
+}
+
+.bottom-nav-item i {
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.bottom-nav-item span {
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+.bottom-nav-item:hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+.bottom-nav-item:active {
+    transform: translateY(0);
+}
+
+/* Ajuster le padding du body pour le bottom nav */
+body {
+    padding-bottom: 70px;
+}
+
 .square {
     width: 50px;
     height: 50px;
