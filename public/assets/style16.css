@@ -118,6 +118,22 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Animation pulse pour le logo globe */
+.navbar .square.green {
+    animation: pulse-logo 3s ease-in-out infinite;
+}
+
+@keyframes pulse-logo {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(106, 170, 100, 0.3);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(106, 170, 100, 0.6);
+        transform: scale(1.05);
+    }
+}
+
 /* Clavier fixé en bas */
 #keyboard {
     position: fixed;
@@ -167,9 +183,11 @@ body {
 }
 .blue {
     background-color: #3a3a3c;
-    color: white;
+    color: #565758;
     opacity: 1;
     border-color: #3a3a3c;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
 }
 .yellow {
     background-color: #c9b458;
@@ -184,6 +202,16 @@ body {
     opacity: 1;
     border-color: #6aaa64;
     box-shadow: 0 0 10px rgba(106, 170, 100, 0.4);
+    animation: pulse-green 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(106, 170, 100, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(106, 170, 100, 0.8), 0 0 30px rgba(106, 170, 100, 0.4);
+    }
 }
 
 .hint-letter {
@@ -375,16 +403,25 @@ body {
 
 
 .blink-bulb  {
-    animation: blink-bulb 20s infinite;
-    transition: none;
-    animation-delay: 20s;
+    animation: boom-boom 15s ease-in-out infinite;
 }
 
-@keyframes blink-bulb {
-    10%   { box-shadow: 2px 5px 39px 3px yellow;  }
-    13%   { box-shadow: none }
-    17%   { box-shadow: 2px 5px 39px 3px yellow; }
-    20%   { box-shadow: none }
+@keyframes boom-boom {
+    0%, 100% {
+        transform: scale(1);
+    }
+    1% {
+        transform: scale(1.2);
+    }
+    2% {
+        transform: scale(1);
+    }
+    3% {
+        transform: scale(1.2);
+    }
+    4%, 99% {
+        transform: scale(1);
+    }
 }
 
 /* Bounce animation pour les lettres */
