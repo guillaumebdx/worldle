@@ -2,6 +2,83 @@ const enter = 'OK';
 const del = 'Sup';
 const numberOfLines = 7;
 let gameOver = false;
+
+// ===== Theme Toggle with localStorage =====
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+const html = document.documentElement;
+
+const applyTheme = (theme) => {
+  if (theme === 'light') {
+    html.setAttribute('data-theme', 'light');
+    if (themeIcon) {
+      themeIcon.classList.remove('fa-moon');
+      themeIcon.classList.add('fa-sun');
+    }
+  } else {
+    html.removeAttribute('data-theme');
+    if (themeIcon) {
+      themeIcon.classList.remove('fa-sun');
+      themeIcon.classList.add('fa-moon');
+    }
+  }
+};
+
+const savedTheme = localStorage.getItem('wordleMonde-theme') || 'dark';
+applyTheme(savedTheme);
+
+if (themeToggle) {
+  themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    localStorage.setItem('wordleMonde-theme', next);
+    applyTheme(next);
+  });
+}
+
+// ===== Toast Notification =====
+const toastEl = document.createElement('div');
+toastEl.classList.add('toast-notification');
+document.body.appendChild(toastEl);
+
+const showToast = (message, duration = 1500) => {
+  toastEl.textContent = message;
+  toastEl.classList.add('show');
+  setTimeout(() => {
+    toastEl.classList.remove('show');
+  }, duration);
+};
+
+// ===== Confetti CSS =====
+const launchConfetti = () => {
+  const container = document.createElement('div');
+  container.classList.add('confetti-container');
+  document.body.appendChild(container);
+
+  const colors = ['#6aaa64', '#c9b458', '#538d4e', '#b59f3b', '#ffd700', '#ff6b6b', '#48dbfb', '#ff9ff3', '#54a0ff', '#5f27cd'];
+  const count = 80;
+
+  for (let i = 0; i < count; i++) {
+    const piece = document.createElement('div');
+    piece.classList.add('confetti-piece');
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const left = Math.random() * 100;
+    const duration = 2 + Math.random() * 2;
+    const delayVal = Math.random() * 1.5;
+    const sway = (Math.random() - 0.5) * 200;
+
+    piece.style.backgroundColor = color;
+    piece.style.left = left + '%';
+    piece.style.animationDuration = duration + 's';
+    piece.style.animationDelay = delayVal + 's';
+    piece.style.setProperty('--sway', sway + 'px');
+    container.appendChild(piece);
+  }
+
+  setTimeout(() => {
+    container.remove();
+  }, 5000);
+};
 const matrice = document.getElementById('matrice');
 const letterCount = parseInt(matrice.dataset.lettercount);
 const reloadCount = parseInt(matrice.dataset.reloadcount);
@@ -84,11 +161,14 @@ const addLetterInSquare = (letter) => {
   inWorkingSquare++;
   square.innerHTML += letter;
   
-  // Ajouter l'animation bounce
+  // Bordure plus marquee quand la case contient une lettre
+  square.parentElement.classList.add('has-letter');
+  
+  // Ajouter l'animation pop
   square.parentElement.classList.add('bounce');
   setTimeout(() => {
     square.parentElement.classList.remove('bounce');
-  }, 300);
+  }, 150);
 };
 
 const deleteLetterInSquare = () => {
@@ -96,6 +176,10 @@ const deleteLetterInSquare = () => {
   if (square) {
     inWorkingSquare--;
     square.innerHTML = square.innerHTML.slice(0, -1);
+    // Retirer la bordure marquee si la case est vide
+    if (square.innerHTML.trim() === '') {
+      square.parentElement.classList.remove('has-letter');
+    }
   }
 };
 
@@ -139,22 +223,30 @@ const colorize = async (data) => {
     createCopyLine(data)
     inWorkingLine++;
     if (data.success) {
-      currentLine.classList.add('tada');
       gameOver = true;
-      displayVictory();
     } else {
-      currentLine.classList.add('shake');
       if (inWorkingLine === numberOfLines) {
         gameOver = true;
-        displayDefeat();
       }
     }
+    // Flip 3D animation avec delai en cascade
     for (let i=0; i < data.result.length; i++) {
-      currentLine.children[i].classList.add(data.result[i]);
-      if (data.result[i] === 'green') {
-        pyro(currentLine.children[i]);
-      }
-      await delay(100)
+      const tile = currentLine.children[i];
+      await delay(300);
+      tile.classList.add('flip');
+      // Appliquer la couleur a mi-flip (quand la tuile est invisible)
+      setTimeout(() => {
+        tile.classList.add(data.result[i]);
+      }, 250);
+    }
+    // Attendre la fin de toutes les animations flip
+    await delay(300);
+    if (data.success) {
+      currentLine.classList.add('tada');
+      launchConfetti();
+      displayVictory();
+    } else if (inWorkingLine === numberOfLines) {
+      displayDefeat();
     }
     // Afficher les lettres vertes sur la ligne suivante
     if (!gameOver) {
@@ -172,13 +264,12 @@ const pyro = async (pyroBlock) => {
 const handleInvalidWord = (currentLine) => {
   for (let i=0; i < currentLine.children.length; i++) {
     currentLine.children[i].children[0].innerHTML = '';
+    currentLine.children[i].classList.remove('has-letter');
   }
   currentLine.classList.add('shake');
-  const invalidWord = document.getElementById('invalid-word');
-  invalidWord.classList.remove('d-none');
+  showToast('Ce mot n\'existe pas dans Wikipedia !');
   setTimeout(() => {
     currentLine.classList.remove('shake');
-    invalidWord.classList.add('d-none');
   }, 1000);
 }
 
